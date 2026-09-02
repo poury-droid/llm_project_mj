@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export const stages = ["관심공고", "지원준비", "서류전형", "필기전형", "면접전형", "최종결과"];
 
 function ApplicationFormFields({ form, setForm }) {
+  const [subjectsText, setSubjectsText] = useListText(form.subjects);
+  const [requiredDocumentsText, setRequiredDocumentsText] = useListText(form.requiredDocuments);
+
   function update(name, value) {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
-  function updateList(name, value) {
+  function updateList(name, value, setText) {
+    setText(value);
     const items = value.split(",").map((item) => item.trim()).filter(Boolean);
     setForm((prev) => ({ ...prev, [name]: items }));
   }
@@ -24,11 +28,36 @@ function ApplicationFormFields({ form, setForm }) {
       <label>면접일<input type="datetime-local" value={form.interviewDate ? form.interviewDate.slice(0, 16) : ""} onChange={(e) => update("interviewDate", e.target.value)} /></label>
       <label>회신 마감<input type="date" value={form.replyDeadline || ""} onChange={(e) => update("replyDeadline", e.target.value)} /></label>
       <label>장소<input value={form.location || ""} onChange={(e) => update("location", e.target.value)} /></label>
-      <label className="wide">시험과목, 쉼표로 구분<input value={(form.subjects || []).join(", ")} onChange={(e) => updateList("subjects", e.target.value)} /></label>
-      <label className="wide">제출서류, 쉼표로 구분<input value={(form.requiredDocuments || []).join(", ")} onChange={(e) => updateList("requiredDocuments", e.target.value)} /></label>
+      <label className="wide">시험과목, 쉼표로 구분<input value={subjectsText} onChange={(e) => updateList("subjects", e.target.value, setSubjectsText)} /></label>
+      <label className="wide">제출서류, 쉼표로 구분<input value={requiredDocumentsText} onChange={(e) => updateList("requiredDocuments", e.target.value, setRequiredDocumentsText)} /></label>
       <label className="wide">메모<textarea value={form.memo || ""} onChange={(e) => update("memo", e.target.value)} /></label>
     </div>
   );
+}
+
+function useListText(items = []) {
+  const [text, setText] = useState(() => joinList(items));
+
+  useEffect(() => {
+    if (!sameList(parseList(text), items)) {
+      setText(joinList(items));
+    }
+  }, [items, text]);
+
+  return [text, setText];
+}
+
+function parseList(value) {
+  return value.split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+function joinList(items = []) {
+  return items.join(", ");
+}
+
+function sameList(left = [], right = []) {
+  if (left.length !== right.length) return false;
+  return left.every((item, index) => item === right[index]);
 }
 
 export default ApplicationFormFields;

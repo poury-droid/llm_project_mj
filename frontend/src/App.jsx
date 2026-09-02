@@ -19,7 +19,7 @@ function App() {
           </div>
         </div>
         <nav>
-          <NavLink to="/">대시보드</NavLink>
+          <NavLink to="/">한눈에 보기</NavLink>
           <NavLink to="/applications">지원 공고</NavLink>
           <NavLink to="/applications/new">공고 등록</NavLink>
           <NavLink to="/analyze/pdf">자료 분석</NavLink>

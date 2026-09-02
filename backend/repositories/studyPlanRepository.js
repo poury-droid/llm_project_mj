@@ -5,6 +5,11 @@ export async function findStudyPlanByApplicationId(applicationId) {
   return db.studyPlans.find((plan) => plan.applicationId === applicationId) || null;
 }
 
+export async function findAllStudyPlans() {
+  const db = await readDb();
+  return db.studyPlans;
+}
+
 export async function replaceStudyPlan(applicationId, plan) {
   const db = await readDb();
   db.studyPlans = db.studyPlans.filter((item) => item.applicationId !== applicationId);

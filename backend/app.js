@@ -15,6 +15,7 @@ const __dirname = path.dirname(__filename);
 const frontendDistPath = path.join(__dirname, "..", "frontend", "dist");
 
 // React 개발 서버나 다른 기기에서 API를 호출할 수 있도록 CORS를 허용합니다.
+// cors() 미들웨어는 다른 출처에서 백엔드 API를 호출할 수 있도록 응답 헤더를 설정합니다.
 app.use(cors());
 app.use(express.json());
 

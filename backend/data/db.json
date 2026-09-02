@@ -1060,7 +1060,7 @@
       "position": "연구행정",
       "title": "정규직 연구지원 채용",
       "deadline": "2026-09-17",
-      "stage": "지원준비",
+      "stage": "면접전형",
       "pdfFileName": "research_apply.pdf",
       "memo": "면접 참석 회신과 졸업증명서 준비 필요.",
       "writtenTestDate": "",
@@ -1073,92 +1073,72 @@
         "성적증명서"
       ],
       "createdAt": "2026-08-10T09:00:00.000Z",
-      "updatedAt": "2026-09-02T00:16:29.721Z",
+      "updatedAt": "2026-09-02T06:14:17.219Z",
       "tasks": [
         {
-          "id": "6df683f9-a2d2-40bc-9e37-366e68e8e635",
+          "id": "2e437d35-c1e9-42c6-9ae7-54c28aff2202",
           "applicationId": "app-3",
-          "title": "필기시험 날짜 확인",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
+          "title": "지원서 작성",
+          "category": "지원준비",
+          "dueDate": "2026-09-17",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T00:16:31.571Z"
         },
         {
-          "id": "8587255e-d822-4ab1-b714-01bb7a9e3f45",
+          "id": "22fd2ba3-326f-4084-bc29-ce5c81b790cb",
           "applicationId": "app-3",
-          "title": "시험 장소 확인",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
+          "title": "제출 전 최종검토",
+          "category": "지원준비",
+          "dueDate": "2026-09-17",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T00:16:31.571Z"
         },
         {
-          "id": "1f41b603-fb5f-4fcd-b83a-337eb2180e0f",
+          "id": "9477516e-28bc-4294-acfe-149202216c8b",
           "applicationId": "app-3",
-          "title": "입실 시간 확인",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
+          "title": "서류 접수 상태 확인",
+          "category": "서류전형",
+          "dueDate": "2026-09-17",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T06:14:05.775Z"
         },
         {
-          "id": "2753fcda-be1c-416c-b6ce-73ddf440094e",
+          "id": "b8f43d07-dfe6-4522-9053-9bcb7b609c3b",
           "applicationId": "app-3",
-          "title": "수험표 확인",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
+          "title": "합격 발표일 확인",
+          "category": "서류전형",
+          "dueDate": "2026-09-17",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T06:14:05.775Z"
         },
         {
-          "id": "98091317-e174-4046-9124-2b25c58eadf3",
+          "id": "6d07a896-8fbc-4979-80a6-98f0fdd2d89c",
           "applicationId": "app-3",
-          "title": "신분증 준비",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
+          "title": "다음 전형 준비사항 확인",
+          "category": "서류전형",
+          "dueDate": "2026-09-17",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
-        },
-        {
-          "id": "0c2409c4-5c51-493c-8eb1-14967d639e03",
-          "applicationId": "app-3",
-          "title": "필기구 준비",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
-        },
-        {
-          "id": "a2e10451-bce5-47a0-a9e5-efb2afb6fb53",
-          "applicationId": "app-3",
-          "title": "교통편 확인",
-          "category": "필기전형",
-          "dueDate": "2026-08-28",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-02T00:15:40.569Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T06:14:05.775Z"
         }
       ],
       "studyPlan": null
     },
     {
       "id": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "company": "OO연구원",
+      "company": "OO연구원2",
       "position": "연구행정",
       "title": "면접 전형 안내",
-      "deadline": "2026-10-15",
-      "stage": "최종결과",
+      "deadline": "2026-09-22",
+      "stage": "서류전형",
       "pdfFileName": "",
       "memo": "mock 이미지 분석 결과입니다.",
-      "writtenTestDate": "",
-      "interviewDate": "2026-10-20T14:00:00.000Z",
+      "writtenTestDate": "2026-09-25",
+      "interviewDate": "2026-09-10T14:02",
       "replyDeadline": "2026-10-15",
       "location": "서울 OO센터",
       "subjects": [],
@@ -1167,127 +1147,47 @@
         "성적증명서"
       ],
       "createdAt": "2026-09-01T11:14:27.265Z",
-      "updatedAt": "2026-09-01T11:14:59.468Z",
+      "updatedAt": "2026-09-02T10:24:45.269Z",
       "tasks": [
         {
-          "id": "3e6150fd-5200-4521-a653-7f319b03ef82",
+          "id": "f5da7a18-3cb7-4a89-a909-8151f1cc304f",
           "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "면접 참석 여부 메일 회신",
-          "category": "회신",
-          "dueDate": "2026-10-15",
-          "completed": true,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:27.272Z"
-        },
-        {
-          "id": "697c9eb9-4069-40d0-8b34-c942d2a69ff3",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "졸업증명서 준비",
-          "category": "서류",
-          "dueDate": "2026-10-15",
-          "completed": true,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:27.283Z"
-        },
-        {
-          "id": "08f58aa3-6bca-4ac8-816f-549aa080e6a4",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "성적증명서 준비",
-          "category": "서류",
-          "dueDate": "2026-10-15",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:27.292Z"
-        },
-        {
-          "id": "8823839a-a9c1-4ea9-b133-ba025084cac7",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "면접 장소 확인",
-          "category": "면접전형",
-          "dueDate": "2026-10-20",
-          "completed": true,
-          "priority": "normal",
-          "createdAt": "2026-09-01T11:14:27.300Z"
-        },
-        {
-          "id": "bc596556-8816-4c7f-bc82-06fc62af226e",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "교통편 확인",
-          "category": "면접전형",
-          "dueDate": "2026-10-20",
+          "title": "입사 가능일 정리",
+          "category": "최종결과",
+          "dueDate": "2026-09-22",
           "completed": false,
           "priority": "normal",
-          "createdAt": "2026-09-01T11:14:27.308Z"
+          "createdAt": "2026-09-02T10:17:18.673Z"
         },
         {
-          "id": "2d895c75-43f0-4a0a-b734-1b93427e0b4d",
+          "id": "e9282073-8c10-4560-afa3-ec23d61a45d4",
           "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "예상 질문 준비",
-          "category": "면접전형",
-          "dueDate": "2026-10-20",
+          "title": "서류 접수 상태 확인",
+          "category": "서류전형",
+          "dueDate": "2026-09-22",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:27.318Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T10:17:36.610Z"
         },
         {
-          "id": "2940c0d1-8b89-4c00-b792-d0bf7b023ae9",
+          "id": "a88551ee-9022-4915-b19e-35cf7c41a06d",
           "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "면접 날짜 확인",
-          "category": "면접전형",
-          "dueDate": "2026-10-15",
+          "title": "합격 발표일 확인",
+          "category": "서류전형",
+          "dueDate": "2026-09-22",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:49.004Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T10:17:36.610Z"
         },
         {
-          "id": "23d8e133-e944-4daa-b26d-d23427d6fef2",
+          "id": "2b623385-9f3d-4cf6-8a72-9c064a6fb0f2",
           "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "제출서류 준비",
-          "category": "면접전형",
-          "dueDate": "2026-10-15",
+          "title": "다음 전형 준비사항 확인",
+          "category": "서류전형",
+          "dueDate": "2026-09-22",
           "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:49.004Z"
-        },
-        {
-          "id": "6fd284ca-f451-456d-90a5-9120f617f32d",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "면접 복장 준비",
-          "category": "면접전형",
-          "dueDate": "2026-10-15",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:49.004Z"
-        },
-        {
-          "id": "bb1817f0-c0c6-4ed5-aff9-45d38df0ce78",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "회사 조사",
-          "category": "면접전형",
-          "dueDate": "2026-10-15",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:49.004Z"
-        },
-        {
-          "id": "a26185b7-b161-472d-ab01-7ab6fb1bc649",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "직무 조사",
-          "category": "면접전형",
-          "dueDate": "2026-10-15",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:49.004Z"
-        },
-        {
-          "id": "7011332f-ce0e-4241-a76c-44d48826773a",
-          "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-          "title": "자기소개 준비",
-          "category": "면접전형",
-          "dueDate": "2026-10-15",
-          "completed": false,
-          "priority": "high",
-          "createdAt": "2026-09-01T11:14:49.004Z"
+          "priority": "normal",
+          "createdAt": "2026-09-02T10:17:36.610Z"
         }
       ],
       "studyPlan": null
@@ -1302,12 +1202,13 @@
       "pdfFileName": "2026ë íë°ê¸° ì²­ëì¸í´ ê³µê°ì±ì© ê³µê³ ë¬¸.pdf",
       "memo": "mock 분석 결과입니다. 저장 전 화면에서 수정하세요.",
       "writtenTestDate": "2026-10-05",
-      "interviewDate": "",
+      "interviewDate": "2026-11-24T10:21",
       "replyDeadline": "",
       "location": "",
       "subjects": [
         "NCS",
-        "경제학"
+        "경제학",
+        "한국사"
       ],
       "requiredDocuments": [
         "성적증명서",
@@ -1315,7 +1216,60 @@
         "경력증명서"
       ],
       "createdAt": "2026-09-01T11:20:49.160Z",
-      "updatedAt": "2026-09-01T11:20:49.160Z"
+      "updatedAt": "2026-09-02T06:21:48.549Z",
+      "tasks": [
+        {
+          "id": "a38a8b87-81fb-41fd-9e60-c6f53cac5993",
+          "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
+          "title": "성적증명서 준비",
+          "category": "서류",
+          "dueDate": "2026-09-14",
+          "completed": false,
+          "priority": "normal",
+          "createdAt": "2026-09-01T11:20:49.169Z"
+        },
+        {
+          "id": "72db2ce5-8299-4ce3-8cf5-0be9cb8280c2",
+          "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
+          "title": "자격증 사본 준비",
+          "category": "서류",
+          "dueDate": "2026-09-14",
+          "completed": false,
+          "priority": "normal",
+          "createdAt": "2026-09-01T11:20:49.180Z"
+        },
+        {
+          "id": "6c25c9b2-09d1-479a-84bc-a9e964c952af",
+          "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
+          "title": "경력증명서 준비",
+          "category": "서류",
+          "dueDate": "2026-09-14",
+          "completed": false,
+          "priority": "normal",
+          "createdAt": "2026-09-01T11:20:49.188Z"
+        },
+        {
+          "id": "eee803c2-9c7e-4f86-b2c6-fd1834364fca",
+          "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
+          "title": "필기시험 날짜 확인",
+          "category": "필기전형",
+          "dueDate": "2026-10-05",
+          "completed": false,
+          "priority": "high",
+          "createdAt": "2026-09-01T11:20:49.198Z"
+        },
+        {
+          "id": "6ddaf384-c99f-418c-a0fb-c4ad0e33ecbf",
+          "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
+          "title": "수험표 확인",
+          "category": "필기전형",
+          "dueDate": "2026-10-05",
+          "completed": true,
+          "priority": "high",
+          "createdAt": "2026-09-01T11:20:49.208Z"
+        }
+      ],
+      "studyPlan": null
     },
     {
       "id": "9d7b7ec1-ecce-457b-997a-e3f5650b16ae",
@@ -1939,16 +1893,6 @@
   ],
   "tasks": [
     {
-      "id": "task-3",
-      "applicationId": "app-2",
-      "title": "자기소개서 작성",
-      "category": "지원준비",
-      "dueDate": "2026-09-04",
-      "completed": true,
-      "priority": "high",
-      "createdAt": "2026-08-21T09:00:00.000Z"
-    },
-    {
       "id": "1e577d94-65d1-46e1-bcfa-3db091385c15",
       "applicationId": "app-1",
       "title": "서류 접수 상태 확인",
@@ -1979,44 +1923,14 @@
       "createdAt": "2026-09-01T11:07:30.247Z"
     },
     {
-      "id": "0a3a5c85-24b8-4363-92f3-7de3068ad791",
-      "applicationId": "app-2",
-      "title": "결과 발표 확인",
-      "category": "최종결과",
-      "dueDate": "2026-09-05",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:08:25.210Z"
-    },
-    {
       "id": "791832ee-ec9e-4771-8955-628c3b1a6654",
       "applicationId": "app-2",
       "title": "입사서류 확인",
       "category": "최종결과",
       "dueDate": "2026-09-05",
-      "completed": false,
+      "completed": true,
       "priority": "normal",
       "createdAt": "2026-09-01T11:08:25.210Z"
-    },
-    {
-      "id": "4dc08fa7-52eb-44a4-8d98-e6f0e53face6",
-      "applicationId": "app-2",
-      "title": "입사 가능일 정리",
-      "category": "최종결과",
-      "dueDate": "2026-09-05",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:08:25.210Z"
-    },
-    {
-      "id": "231ca045-620e-4078-9134-4c6332e1fcce",
-      "applicationId": "app-2",
-      "title": "서류 접수 상태 확인",
-      "category": "서류전형",
-      "dueDate": "2026-09-05",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:08:41.149Z"
     },
     {
       "id": "75aab3da-5767-4f64-ad23-d20daa26778a",
@@ -2037,156 +1951,6 @@
       "completed": false,
       "priority": "normal",
       "createdAt": "2026-09-01T11:08:41.149Z"
-    },
-    {
-      "id": "3e6150fd-5200-4521-a653-7f319b03ef82",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "면접 참석 여부 메일 회신",
-      "category": "회신",
-      "dueDate": "2026-10-15",
-      "completed": true,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:27.272Z"
-    },
-    {
-      "id": "697c9eb9-4069-40d0-8b34-c942d2a69ff3",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "졸업증명서 준비",
-      "category": "서류",
-      "dueDate": "2026-10-15",
-      "completed": true,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:27.283Z"
-    },
-    {
-      "id": "08f58aa3-6bca-4ac8-816f-549aa080e6a4",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "성적증명서 준비",
-      "category": "서류",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:27.292Z"
-    },
-    {
-      "id": "8823839a-a9c1-4ea9-b133-ba025084cac7",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "면접 장소 확인",
-      "category": "면접전형",
-      "dueDate": "2026-10-20",
-      "completed": true,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:14:27.300Z"
-    },
-    {
-      "id": "bc596556-8816-4c7f-bc82-06fc62af226e",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "교통편 확인",
-      "category": "면접전형",
-      "dueDate": "2026-10-20",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:14:27.308Z"
-    },
-    {
-      "id": "2d895c75-43f0-4a0a-b734-1b93427e0b4d",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "예상 질문 준비",
-      "category": "면접전형",
-      "dueDate": "2026-10-20",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:27.318Z"
-    },
-    {
-      "id": "2940c0d1-8b89-4c00-b792-d0bf7b023ae9",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "면접 날짜 확인",
-      "category": "면접전형",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:49.004Z"
-    },
-    {
-      "id": "23d8e133-e944-4daa-b26d-d23427d6fef2",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "제출서류 준비",
-      "category": "면접전형",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:49.004Z"
-    },
-    {
-      "id": "6fd284ca-f451-456d-90a5-9120f617f32d",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "면접 복장 준비",
-      "category": "면접전형",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:49.004Z"
-    },
-    {
-      "id": "bb1817f0-c0c6-4ed5-aff9-45d38df0ce78",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "회사 조사",
-      "category": "면접전형",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:49.004Z"
-    },
-    {
-      "id": "a26185b7-b161-472d-ab01-7ab6fb1bc649",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "직무 조사",
-      "category": "면접전형",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:49.004Z"
-    },
-    {
-      "id": "7011332f-ce0e-4241-a76c-44d48826773a",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "자기소개 준비",
-      "category": "면접전형",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:14:49.004Z"
-    },
-    {
-      "id": "d2aac63f-45db-4236-82ea-0480d2e1d4af",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "결과 발표 확인",
-      "category": "최종결과",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:14:59.480Z"
-    },
-    {
-      "id": "934ba46c-3092-492b-9b7c-90178c42261c",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "입사서류 확인",
-      "category": "최종결과",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:14:59.480Z"
-    },
-    {
-      "id": "077708c1-4e89-4367-9a0b-14c7bfaed863",
-      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
-      "title": "입사 가능일 정리",
-      "category": "최종결과",
-      "dueDate": "2026-10-15",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:14:59.480Z"
     },
     {
       "id": "a38a8b87-81fb-41fd-9e60-c6f53cac5993",
@@ -2234,7 +1998,7 @@
       "title": "수험표 확인",
       "category": "필기전형",
       "dueDate": "2026-10-05",
-      "completed": false,
+      "completed": true,
       "priority": "high",
       "createdAt": "2026-09-01T11:20:49.208Z"
     },
@@ -2242,56 +2006,6 @@
       "id": "2e437d35-c1e9-42c6-9ae7-54c28aff2202",
       "applicationId": "app-3",
       "title": "지원서 작성",
-      "category": "지원준비",
-      "dueDate": "2026-09-17",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-02T00:16:31.571Z"
-    },
-    {
-      "id": "4b3df85f-11fd-4374-a121-03bda3a554b1",
-      "applicationId": "app-3",
-      "title": "자기소개서 작성",
-      "category": "지원준비",
-      "dueDate": "2026-09-17",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-02T00:16:31.571Z"
-    },
-    {
-      "id": "77bc6347-48cf-4eff-9267-0e1ac045c8a6",
-      "applicationId": "app-3",
-      "title": "자격증 번호 확인",
-      "category": "지원준비",
-      "dueDate": "2026-09-17",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-02T00:16:31.571Z"
-    },
-    {
-      "id": "2619cb1a-b1f9-4c3d-add7-4948d8e5d2f7",
-      "applicationId": "app-3",
-      "title": "교육사항 확인",
-      "category": "지원준비",
-      "dueDate": "2026-09-17",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-02T00:16:31.571Z"
-    },
-    {
-      "id": "4b50e416-1102-428b-a301-83a187a40167",
-      "applicationId": "app-3",
-      "title": "경력사항 확인",
-      "category": "지원준비",
-      "dueDate": "2026-09-17",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-02T00:16:31.571Z"
-    },
-    {
-      "id": "20a7eccc-abb9-4518-91e0-1c29bb437236",
-      "applicationId": "app-3",
-      "title": "첨부파일 확인",
       "category": "지원준비",
       "dueDate": "2026-09-17",
       "completed": false,
@@ -2307,6 +2021,106 @@
       "completed": false,
       "priority": "normal",
       "createdAt": "2026-09-02T00:16:31.571Z"
+    },
+    {
+      "id": "241c5bfa-e5b0-4c89-888f-eab17f1cf6c5",
+      "applicationId": "9d7b7ec1-ecce-457b-997a-e3f5650b16ae",
+      "title": "필기시험 날짜 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-18",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-02T05:56:11.821Z"
+    },
+    {
+      "id": "b7517887-4e06-41a4-ad5b-fa3c68c0ddf8",
+      "applicationId": "9d7b7ec1-ecce-457b-997a-e3f5650b16ae",
+      "title": "시험 장소 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-18",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-02T05:56:11.821Z"
+    },
+    {
+      "id": "b2524eb4-e1f1-4dc0-b9bf-4aca7a9d0f65",
+      "applicationId": "9d7b7ec1-ecce-457b-997a-e3f5650b16ae",
+      "title": "입실 시간 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-18",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-02T05:56:11.821Z"
+    },
+    {
+      "id": "9477516e-28bc-4294-acfe-149202216c8b",
+      "applicationId": "app-3",
+      "title": "서류 접수 상태 확인",
+      "category": "서류전형",
+      "dueDate": "2026-09-17",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-02T06:14:05.775Z"
+    },
+    {
+      "id": "b8f43d07-dfe6-4522-9053-9bcb7b609c3b",
+      "applicationId": "app-3",
+      "title": "합격 발표일 확인",
+      "category": "서류전형",
+      "dueDate": "2026-09-17",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-02T06:14:05.775Z"
+    },
+    {
+      "id": "28dbf369-f2a5-4501-ad1c-6de14d4b0a5d",
+      "applicationId": "app-3",
+      "title": "예상 질문 준비",
+      "category": "면접전형",
+      "dueDate": "2026-09-17",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-02T06:14:17.232Z"
+    },
+    {
+      "id": "f5da7a18-3cb7-4a89-a909-8151f1cc304f",
+      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
+      "title": "입사 가능일 정리",
+      "category": "최종결과",
+      "dueDate": "2026-09-22",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-02T10:17:18.673Z"
+    },
+    {
+      "id": "e9282073-8c10-4560-afa3-ec23d61a45d4",
+      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
+      "title": "서류 접수 상태 확인",
+      "category": "서류전형",
+      "dueDate": "2026-09-22",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-02T10:17:36.610Z"
+    },
+    {
+      "id": "a88551ee-9022-4915-b19e-35cf7c41a06d",
+      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
+      "title": "합격 발표일 확인",
+      "category": "서류전형",
+      "dueDate": "2026-09-22",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-02T10:17:36.610Z"
+    },
+    {
+      "id": "2b623385-9f3d-4cf6-8a72-9c064a6fb0f2",
+      "applicationId": "87b02fac-5222-4f8d-a578-2927b78fb991",
+      "title": "다음 전형 준비사항 확인",
+      "category": "서류전형",
+      "dueDate": "2026-09-22",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-02T10:17:36.610Z"
     }
   ],
   "studyPlans": [
@@ -3185,7 +2999,7 @@
       "createdAt": "2026-09-01T10:45:16.279Z"
     },
     {
-      "id": "63e58d70-0a8f-419e-aa7a-92568d75d4ae",
+      "id": "8cee0215-f6aa-464e-8a58-a5152c15c92e",
       "applicationId": "9d7b7ec1-ecce-457b-997a-e3f5650b16ae",
       "examDate": "2026-09-18",
       "weekdayHours": 2,
@@ -3193,7 +3007,7 @@
       "subjects": [
         {
           "name": "NCS 수리",
-          "importance": 4
+          "importance": 5
         },
         {
           "name": "NCS 의사소통",
@@ -3222,18 +3036,18 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "62fe2e26-6526-4039-8173-dd57da2456da",
+              "id": "ac74788c-9938-494e-a400-333bab95f545",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
-              "completed": false
+              "completed": true
             },
             {
-              "id": "c1517ef1-5b43-4cd9-8bd2-83d79b750d72",
+              "id": "ddd25d54-0a58-4390-ae3c-018cd6234c2f",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
-              "completed": false
+              "completed": true
             }
           ]
         },
@@ -3242,18 +3056,18 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "d7b59492-0530-4c62-a4b8-1c4267f5c14a",
+              "id": "e714d509-e358-44f2-85d1-80f277b9f718",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
-              "completed": false
+              "completed": true
             },
             {
-              "id": "6a69e24d-c408-43cd-8a72-fd131e486cb7",
+              "id": "e6787d86-f136-4caf-a81c-3104ce1065ad",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
-              "completed": false
+              "completed": true
             }
           ]
         },
@@ -3262,14 +3076,14 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "9f29f05c-af9b-49f5-bd35-59db86d74f49",
-              "subject": "NCS 의사소통",
+              "id": "aa26ce6d-0913-4034-8546-42a113b792f4",
+              "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "4bead182-f951-463b-92b7-47f7bb43ce98",
+              "id": "2e39435e-c3f0-491c-93aa-79849956870d",
               "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "개념",
@@ -3282,28 +3096,28 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "b561f6f9-e626-4ad3-b555-4c40abaf2499",
+              "id": "d6e3afa1-a583-42aa-a729-2d6431a80ab7",
               "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "da8e212d-f4d0-4c6d-82fb-62885b2ea253",
+              "id": "48da9e58-f3f9-48be-88c4-cbd02982b030",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "dd2f53db-b25c-4662-8b88-b36a99c9a598",
               "subject": "경제학",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "efd6f34d-c4b2-4265-b2d9-013ad9f9e534",
-              "subject": "경제학",
-              "hours": 1,
-              "focus": "개념",
-              "completed": false
-            },
-            {
-              "id": "ef3ecabf-0c18-4691-8ef1-66664764adc8",
+              "id": "3f8b00e0-2e10-4b92-977d-28045b55e747",
               "subject": "경제학",
               "hours": 1,
               "focus": "개념",
@@ -3316,28 +3130,28 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "69ce4697-e7d2-4733-ae90-0c7b24710015",
+              "id": "885d6b4c-4a5f-4320-ba9f-9196f19d7df5",
               "subject": "경제학",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "4e3c1772-2727-4548-89d4-154ad6615e2c",
+              "id": "37eae4aa-eee5-4a2f-8898-6294574ce1a3",
               "subject": "경제학",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "adea06fe-1d56-4791-a5cc-a6efe653167d",
-              "subject": "NCS 수리",
+              "id": "b10ddca2-d05c-4c2c-9267-9f92355ae7b6",
+              "subject": "경제학",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "310ea6b4-721e-4890-83b8-d7be26473c81",
+              "id": "e0bd94cc-10ce-4d11-933d-4bc6a457cd5c",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
@@ -3350,14 +3164,14 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "f9ddb1cf-ad64-41f6-b90e-e912b20883ae",
+              "id": "c1fd7a1c-4691-409a-8f1b-60764900bb3e",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
               "completed": false
             },
             {
-              "id": "0e8e48f9-af92-44cf-bddb-8c19e882d103",
+              "id": "f009d0e6-e95a-41c7-819f-94db53385b92",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "개념",
@@ -3370,15 +3184,15 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "ac9e40a7-9aca-4450-becd-4a64f583faae",
-              "subject": "NCS 의사소통",
+              "id": "5b1c8136-5e0a-43ed-ad45-4cd2e724c305",
+              "subject": "NCS 수리",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "e82b1f54-776c-4a21-a4e9-9576ce001e05",
-              "subject": "NCS 의사소통",
+              "id": "0fba26a0-60e7-47e2-b3fa-5c7123eb4127",
+              "subject": "NCS 수리",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
@@ -3390,15 +3204,15 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "6d2ccc53-887e-45c8-b0bf-94f701bdb133",
+              "id": "0211e96d-2da6-45ce-ab72-8fc08cbc78fb",
               "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "3091310b-d514-4cdd-9c9f-41d63021692a",
-              "subject": "경제학",
+              "id": "78a4aad3-6391-4c3b-983f-c816c377e4ba",
+              "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
@@ -3410,14 +3224,14 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "d123bf90-bbe0-41cd-8fc9-160e3099ad5e",
-              "subject": "경제학",
+              "id": "0099a5d6-fd0d-4f81-a3d8-881b1a0ee108",
+              "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "a9112b7c-89cb-4649-b72d-f1377c856ea8",
+              "id": "6f32536c-5c7b-4aa7-aa20-09b9216ee7a3",
               "subject": "경제학",
               "hours": 1,
               "focus": "문제풀이",
@@ -3435,29 +3249,29 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "51350480-24a4-487a-90c1-b592c5431e8c",
+              "id": "07944b5d-c0d2-4831-aaa5-682eb40a8e37",
               "subject": "경제학",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "90c95f76-5725-46cc-b634-908c7491122b",
+              "id": "1422d850-c28b-4f06-957e-a48c98f2ab6b",
               "subject": "경제학",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "667871f0-34a0-4553-98ad-4f6170921901",
-              "subject": "NCS 수리",
+              "id": "af962dd6-4ba7-43b5-902b-9b03d5f62697",
+              "subject": "경제학",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "931e4ac1-959b-4168-a7e7-71b06beec09e",
-              "subject": "NCS 수리",
+              "id": "f36fe5fa-3732-4339-a0ad-c7206b9586fe",
+              "subject": "경제학",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
@@ -3469,29 +3283,29 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "1b8a33cc-1c36-406a-9507-d1604d47e368",
+              "id": "30947ef7-76fd-4193-b7be-6477af0f93a1",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "fef80641-062c-47c2-836e-d77577e9ad9a",
+              "id": "3bfc754a-7f94-4cce-8c43-a122bce32319",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "6e7f87d3-0a71-43db-98a2-b1f7000e29bb",
-              "subject": "NCS 의사소통",
+              "id": "9d442ba0-92b8-4ec9-a936-d40187559bb2",
+              "subject": "NCS 수리",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
             },
             {
-              "id": "1f7a53ea-0079-4703-b96a-7388e451cf8e",
-              "subject": "NCS 의사소통",
+              "id": "af729355-7cf6-4156-baa6-d1e1abe65524",
+              "subject": "NCS 수리",
               "hours": 1,
               "focus": "문제풀이",
               "completed": false
@@ -3503,15 +3317,15 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "9d9c66ca-e9f0-4f93-86d7-ed4544e62200",
-              "subject": "NCS 의사소통",
+              "id": "39cee0e2-4495-4442-8069-b9a5b61122de",
+              "subject": "NCS 수리",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
             },
             {
-              "id": "a0d9efb9-4728-4401-afcb-e70786ca1e83",
-              "subject": "경제학",
+              "id": "626f9e38-a66c-4cb4-ba88-553eca188337",
+              "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
@@ -3523,15 +3337,15 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "628d1caf-3b00-4668-b63b-d74fe93591ef",
-              "subject": "경제학",
+              "id": "f80fd418-62b0-4a96-82fe-a871bda5c8e3",
+              "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
             },
             {
-              "id": "3f084b68-2512-4f98-b304-e1548789e983",
-              "subject": "경제학",
+              "id": "59c9d0cc-b2fe-45d3-9542-e98397eb1ea9",
+              "subject": "NCS 의사소통",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
@@ -3543,14 +3357,14 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "a656548e-f2b0-46b2-9720-b123f9a5b271",
+              "id": "3d9c3a83-c906-408d-a264-b8a90fe923b2",
               "subject": "경제학",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
             },
             {
-              "id": "7dcc745e-c1ec-48af-a749-50d162e2312a",
+              "id": "d102da73-557f-4ebb-b168-30bdd0a420cc",
               "subject": "경제학",
               "hours": 1,
               "focus": "기출 및 오답",
@@ -3563,15 +3377,15 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "3cc5accd-ccdd-4efd-a41f-bada6c7cc455",
-              "subject": "NCS 수리",
+              "id": "6d160ea1-cc01-4a96-8cc9-fddb931410f8",
+              "subject": "경제학",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
             },
             {
-              "id": "eb831df9-7399-4f87-8611-8152e2b69dbd",
-              "subject": "NCS 수리",
+              "id": "d22eb150-3e36-446b-ac54-4bc0754d430c",
+              "subject": "경제학",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
@@ -3583,14 +3397,14 @@
           "excluded": false,
           "blocks": [
             {
-              "id": "cf1d9bf3-b013-4966-8867-2ca352fc1ca4",
-              "subject": "NCS 수리",
+              "id": "d30939a4-10df-494a-8a58-7d5139f1e265",
+              "subject": "경제학",
               "hours": 1,
               "focus": "기출 및 오답",
               "completed": false
             },
             {
-              "id": "8eece631-e9f9-4479-9b2b-accc2f47f976",
+              "id": "b7879c23-110b-4585-8736-3c2ff18ba869",
               "subject": "NCS 수리",
               "hours": 1,
               "focus": "기출 및 오답",
@@ -3599,7 +3413,8 @@
           ]
         }
       ],
-      "createdAt": "2026-09-02T00:39:43.977Z"
+      "createdAt": "2026-09-02T05:55:58.018Z",
+      "updatedAt": "2026-09-02T05:56:24.491Z"
     }
   ]
 }
