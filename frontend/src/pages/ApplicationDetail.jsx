@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import ApplicationDdayList from "../components/ApplicationDdayList.jsx";
 import ApplicationFormFields, { stages } from "../components/ApplicationFormFields.jsx";
-import DdayBadge from "../components/DdayBadge.jsx";
 import TaskList from "../components/TaskList.jsx";
 import { useApplications } from "../hooks/useApplications.js";
 import { useTasks } from "../hooks/useTasks.js";
 import { api } from "../services/api.js";
-import { formatShortDate } from "../utils/dateUtils.js";
 
 function ApplicationDetail() {
   const { id } = useParams();
@@ -104,11 +103,8 @@ function ApplicationDetail() {
 
       <div className="two-column">
         <div className="panel">
-          <h2>주요 일정</h2>
-          <Info label="지원 마감" value={<><span>{formatShortDate(application.deadline)}</span> <DdayBadge date={application.deadline} /></>} />
-          <Info label="필기시험" value={<><span>{formatShortDate(application.writtenTestDate)}</span> <DdayBadge date={application.writtenTestDate} /></>} />
-          <Info label="면접일" value={<><span>{formatShortDate(application.interviewDate)}</span> <DdayBadge date={application.interviewDate} /></>} />
-          <Info label="회신 마감" value={<><span>{formatShortDate(application.replyDeadline)}</span> <DdayBadge date={application.replyDeadline} /></>} />
+          <h2>단계별 D-Day</h2>
+          <ApplicationDdayList application={application} />
           <Info label="장소" value={application.location || "-"} />
         </div>
         <div className="panel">

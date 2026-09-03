@@ -40,7 +40,7 @@ export async function getDashboard(req, res) {
     .sort((a, b) => a.daysLeft - b.daysLeft);
   const studyChecklist = studyPlans
     .flatMap((plan) => plan.days.flatMap((day) => day.blocks.map((block) => ({ ...block, applicationId: plan.applicationId, date: day.date, excluded: day.excluded }))))
-    .filter((block) => !block.completed && !block.excluded)
+    .filter((block) => !block.completed && !block.excluded && daysBetween(today, block.date) === 0)
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 8)
     .map((block) => ({ ...block, company: applicationById.get(block.applicationId)?.company || "" }));

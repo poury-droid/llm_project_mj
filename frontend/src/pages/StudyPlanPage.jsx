@@ -46,11 +46,16 @@ function StudyPlanPage() {
     load().catch((err) => setError(err.message));
   }, [id]);
 
+  const todayKey = useMemo(() => formatDateKey(new Date()), []);
+  const todayPlan = useMemo(() => {
+    return plan?.days?.find((day) => day.date === todayKey) || null;
+  }, [plan, todayKey]);
+
   const progress = useMemo(() => {
-    const blocks = plan?.days?.flatMap((day) => day.blocks) || [];
+    const blocks = todayPlan?.blocks || [];
     const done = blocks.filter((block) => block.completed).length;
     return { done, total: blocks.length, percent: blocks.length ? Math.round((done / blocks.length) * 100) : 0 };
-  }, [plan]);
+  }, [todayPlan]);
 
   function parseSubjects() {
     return form.subjectsText.split("\n").map((line) => {
@@ -153,32 +158,41 @@ function StudyPlanPage() {
         <div className="panel">
           <div className="section-header">
             <div>
-              <h2>생성된 계획</h2>
-              <p className="muted">완료율 {progress.done} / {progress.total} · {progress.percent}%</p>
+              <h2>오늘 공부계획</h2>
+              <p className="muted">{todayKey} · 완료율 {progress.done} / {progress.total} · {progress.percent}%</p>
             </div>
           </div>
           <div className="progress-track"><span style={{ width: `${progress.percent}%` }} /></div>
           <div className="plan-list">
-            {plan.days.slice(0, 35).map((day) => (
-              <div className={`plan-day ${day.excluded ? "excluded" : ""}`} key={day.date}>
-                <strong>{day.date}</strong>
+            {todayPlan ? (
+              <div className={`plan-day ${todayPlan.excluded ? "excluded" : ""}`} key={todayPlan.date}>
+                <strong>{todayPlan.date}</strong>
                 <div>
-                  {day.excluded && <span>공부 제외일</span>}
-                  {!day.excluded && day.blocks.length === 0 && <span>휴식 또는 복습</span>}
-                  {day.blocks.map((block) => (
+                  {todayPlan.excluded && <span>오늘은 공부 제외일입니다.</span>}
+                  {!todayPlan.excluded && todayPlan.blocks.length === 0 && <span>오늘은 휴식 또는 복습일입니다.</span>}
+                  {todayPlan.blocks.map((block) => (
                     <label className="study-block" key={block.id}>
-                      <input type="checkbox" checked={block.completed} onChange={() => toggleBlock(day.date, block.id)} />
+                      <input type="checkbox" checked={block.completed} onChange={() => toggleBlock(todayPlan.date, block.id)} />
                       {block.subject} {block.hours}시간 · {block.focus}
                     </label>
                   ))}
                 </div>
               </div>
-            ))}
+            ) : (
+              <p className="empty">오늘 등록된 공부계획이 없습니다.</p>
+            )}
           </div>
         </div>
       )}
     </section>
   );
+}
+
+function formatDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 export default StudyPlanPage;

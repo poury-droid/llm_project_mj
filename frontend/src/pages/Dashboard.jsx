@@ -105,7 +105,7 @@ function Dashboard() {
           <div className="calendar-legend"><span><i className="legend-dot deadline" />마감</span><span><i className="legend-dot written" />필기</span><span><i className="legend-dot interview" />면접</span></div>
         </section>
         <section className="panel">
-          <div className="section-header compact"><div><h2>필기시험 공부 체크리스트</h2><p className="muted">공부계획의 다음 항목부터 진행해보세요.</p></div><Link className="button secondary" to="/applications">공부계획 보기</Link></div>
+          <div className="section-header compact"><div><h2>오늘의 공부계획</h2><p className="muted">오늘 날짜에 배정된 공부 항목만 보여줍니다.</p></div><Link className="button secondary" to="/applications">공부계획 보기</Link></div>
           <StudyChecklist items={dashboard.studyChecklist || []} onToggle={toggleStudyBlock} />
         </section>
       </div>
@@ -182,7 +182,7 @@ function shiftMonth(setMonth, amount) {
 }
 
 function StudyChecklist({ items, onToggle }) {
-  if (!items.length) return <p className="empty">남은 공부 항목이 없습니다. 잘하고 있어요.</p>;
+  if (!items.length) return <p className="empty">오늘 등록된 공부계획이 없습니다.</p>;
   return (
     <ul className="clean-list study-checklist">
       {items.map((item) => (
