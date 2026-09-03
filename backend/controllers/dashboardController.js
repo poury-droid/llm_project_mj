@@ -27,6 +27,15 @@ export async function getDashboard(req, res) {
     return !task.completed && d !== null && d >= 0 && d <= 3;
   });
   const urgentTasks = tasks.filter((task) => !task.completed && ["urgent", "high"].includes(task.priority));
+  const checklists = applications.map((application) => ({
+    applicationId: application.id,
+    company: application.company,
+    position: application.position,
+    stage: application.stage,
+    tasks: tasks
+      .filter((task) => task.applicationId === application.id)
+      .sort((a, b) => Number(a.completed) - Number(b.completed))
+  })).filter((item) => item.tasks.length > 0);
   const upcomingEvents = applications
     .flatMap((app) => [
       app.deadline ? { applicationId: app.id, company: app.company, type: "지원 마감", date: app.deadline } : null,
@@ -51,9 +60,20 @@ export async function getDashboard(req, res) {
     todayTasks: todayTasks.map(withApplicationInfo),
     threeDayTasks: threeDayTasks.map(withApplicationInfo),
     urgentTasks: urgentTasks.map(withApplicationInfo),
+    checklists,
     studyChecklist,
     calendarEvents: upcomingEvents,
     nearestEvent: upcomingEvents[0] || null,
-    stages: applications.map((app) => ({ id: app.id, company: app.company, stage: app.stage, writtenTestDate: app.writtenTestDate, interviewDate: app.interviewDate }))
+    stages: applications.map((app) => ({
+      id: app.id,
+      company: app.company,
+      position: app.position,
+      title: app.title,
+      stage: app.stage,
+      deadline: app.deadline,
+      writtenTestDate: app.writtenTestDate,
+      interviewDate: app.interviewDate,
+      replyDeadline: app.replyDeadline
+    }))
   });
 }

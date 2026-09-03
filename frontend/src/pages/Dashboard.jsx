@@ -129,9 +129,42 @@ function Dashboard() {
       </div>
 
       <h2>지원 공고별 현재 전형 단계</h2>
+      <section className="panel checklist-overview">
+        <div className="section-header compact">
+          <div>
+            <h2>공고별 체크리스트</h2>
+            <p className="muted">등록한 모든 지원 공고의 체크리스트를 한곳에서 확인합니다.</p>
+          </div>
+        </div>
+        <div className="checklist-groups">
+          {(dashboard.checklists || []).map((group) => (
+            <article className="checklist-group" key={group.applicationId}>
+              <div className="checklist-group-header">
+                <div>
+                  <strong>{group.company}</strong>
+                  <span>{group.position || "직무 미입력"} · {group.stage}</span>
+                </div>
+                <Link className="text-link" to={`/applications/${group.applicationId}`}>상세 보기</Link>
+              </div>
+              <ul className="overview-task-list">
+                {group.tasks.map((task) => (
+                  <li className={task.completed ? "done" : ""} key={task.id}>
+                    <span className="task-check" aria-hidden="true">{task.completed ? "✓" : ""}</span>
+                    <span>{task.title}</span>
+                    <small>{task.category}</small>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))}
+          {!(dashboard.checklists || []).length && <p className="empty">등록된 체크리스트가 없습니다.</p>}
+        </div>
+      </section>
+
+      <h2>지원 공고별 현재 전형 단계</h2>
       <div className="card-grid">
         {dashboard.stages.map((item) => (
-          <ApplicationCard key={item.id} application={{ ...item, position: "", title: "", deadline: item.writtenTestDate || item.interviewDate }} />
+          <ApplicationCard key={item.id} application={item} />
         ))}
       </div>
     </section>

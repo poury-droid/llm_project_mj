@@ -60,8 +60,24 @@ export async function addStageChecklist(req, res) {
   const application = await applicationRepo.findApplicationById(req.params.id);
   if (!application) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
   const existingTasks = await taskRepo.findTasksByApplicationId(req.params.id);
-  const tasks = buildStageChecklist(application.stage, application.id, existingTasks, application.deadline);
+  const dueDate = getStageChecklistDueDate(application);
+  for (const task of existingTasks) {
+    if (task.category === application.stage && !task.completed && task.dueDate !== dueDate) {
+      await taskRepo.updateTask(task.id, { dueDate });
+    }
+  }
+  const tasks = buildStageChecklist(application.stage, application.id, existingTasks, dueDate);
   const saved = [];
   for (const task of tasks) saved.push(await taskRepo.createTask(task));
   res.status(201).json(saved);
+}
+
+function getStageChecklistDueDate(application) {
+  const dueDates = {
+    지원준비: application.deadline,
+    필기전형: application.writtenTestDate,
+    면접전형: application.interviewDate,
+    최종결과: application.replyDeadline
+  };
+  return dueDates[application.stage] || application.deadline || "";
 }

@@ -906,7 +906,7 @@
       "position": "행정",
       "title": "일반직 7급 공개채용",
       "deadline": "2026-09-05",
-      "stage": "서류전형",
+      "stage": "필기전형",
       "pdfFileName": "seoul_oo_notice.pdf",
       "memo": "자기소개서 문항별 글자 수 확인.",
       "writtenTestDate": "2026-09-16",
@@ -918,40 +918,449 @@
         "자격증 사본"
       ],
       "createdAt": "2026-08-18T09:00:00.000Z",
-      "updatedAt": "2026-09-03T01:12:38.393Z",
+      "updatedAt": "2026-09-03T02:06:18.877Z",
       "tasks": [
         {
-          "id": "791832ee-ec9e-4771-8955-628c3b1a6654",
+          "id": "d34a12a7-e0b4-4257-a749-c171e9f6d22c",
           "applicationId": "app-2",
-          "title": "입사서류 확인",
-          "category": "최종결과",
-          "dueDate": "2026-09-05",
-          "completed": true,
-          "priority": "normal",
-          "createdAt": "2026-09-01T11:08:25.210Z"
+          "title": "필기시험 날짜 확인",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
+          "completed": false,
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
         },
         {
-          "id": "75aab3da-5767-4f64-ad23-d20daa26778a",
+          "id": "d6c918c1-c864-455a-adaa-71681056e928",
           "applicationId": "app-2",
-          "title": "합격 발표일 확인",
-          "category": "서류전형",
-          "dueDate": "2026-09-05",
+          "title": "시험 장소 확인",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
           "completed": false,
-          "priority": "normal",
-          "createdAt": "2026-09-01T11:08:41.149Z"
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
         },
         {
-          "id": "4459cbef-118d-40d8-9153-aa93eb59b354",
+          "id": "28aa9723-1b8d-418d-a251-97114f241f0f",
           "applicationId": "app-2",
-          "title": "다음 전형 준비사항 확인",
-          "category": "서류전형",
-          "dueDate": "2026-09-05",
+          "title": "입실 시간 확인",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
           "completed": false,
-          "priority": "normal",
-          "createdAt": "2026-09-01T11:08:41.149Z"
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
+        },
+        {
+          "id": "2672c51b-1df1-42b1-9b88-04aac0ceebb8",
+          "applicationId": "app-2",
+          "title": "수험표 확인",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
+          "completed": false,
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
+        },
+        {
+          "id": "1ab01db3-9f2c-484c-9d13-69c7e267260e",
+          "applicationId": "app-2",
+          "title": "신분증 준비",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
+          "completed": false,
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
+        },
+        {
+          "id": "bd4176f3-dbfe-4006-8a56-fec08a207567",
+          "applicationId": "app-2",
+          "title": "필기구 준비",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
+          "completed": false,
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
+        },
+        {
+          "id": "727d315d-467f-4b63-aa39-32881345b59c",
+          "applicationId": "app-2",
+          "title": "교통편 확인",
+          "category": "필기전형",
+          "dueDate": "2026-09-16",
+          "completed": false,
+          "priority": "high",
+          "createdAt": "2026-09-03T01:56:34.656Z"
         }
       ],
-      "studyPlan": null
+      "studyPlan": {
+        "id": "e04e5250-4b5a-4eac-ba4f-43ded591b2a0",
+        "applicationId": "app-2",
+        "examDate": "2026-09-16",
+        "weekdayHours": 2,
+        "weekendHours": 4,
+        "subjects": [
+          {
+            "name": "NCS 수리",
+            "importance": 5
+          },
+          {
+            "name": "NCS 의사소통",
+            "importance": 3
+          },
+          {
+            "name": "경제학",
+            "importance": 5
+          }
+        ],
+        "availableDays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          0
+        ],
+        "excludedDates": [],
+        "days": [
+          {
+            "date": "2026-09-03",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "a0e546eb-ceac-4538-84df-e29109126461",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "da3e438e-938c-4173-9154-df302c493b7a",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-04",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "9aff399e-cee3-4064-b2c2-2b3fbf8748b6",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "d489623d-7929-4e36-b45d-2e6db8c061c4",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-05",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "4766a729-3825-4dd6-8edb-2e0d009fd11d",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "426d5c8b-3e54-4372-bcbb-b029b56abb1e",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "8b9069e3-1ba5-4090-8b71-feb31bcf4a3e",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "c4aa6813-f109-4add-a910-c97baa2db8ef",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-06",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "18014e54-ea8a-4286-b9a7-f58e5294b439",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "da58c980-0d2a-473e-987e-60d3df55f929",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "5ec73ee0-63b7-4025-9404-7140ad1390ea",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "243690ff-985d-4ec2-93cd-5fc80c38ab28",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-07",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "67f997ee-6209-4b68-96fb-5c7d7870f772",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              },
+              {
+                "id": "aa357428-4976-4371-804a-332fb729e02e",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "개념",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-08",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "b9bdde3f-73b0-4788-a847-ad3b70032470",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "32f41eed-1c59-4da7-85bf-655eac46a2b5",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-09",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "acded035-465c-4062-a46f-c35032b26e6e",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "6079a5ad-80a4-441d-a673-4004d2b4d81a",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-10",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "89b4fa49-303c-4f35-8981-a89d5dee4fda",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "ac41dbc7-ae56-47ad-a1fb-f170a6b5f643",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-11",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "124625cb-3497-4bc4-b770-ca57b9b1fed2",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "286298e2-9623-4e32-84a9-65d1616057c5",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-12",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "ef553bcc-1791-4927-a119-d09e3a3c1b13",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "ad7837be-d7e4-403f-8a71-6376d77381b6",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "8fdecd30-bdc1-4d13-97da-e391bf37e970",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              },
+              {
+                "id": "3bf6bb3b-7f24-4c62-8ddf-80e4e6ec42b6",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "문제풀이",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-13",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "bb4c2ca7-5ac4-4c92-a638-d5b497df16e7",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              },
+              {
+                "id": "56970509-555b-42ee-a694-b8ea8c5a2aef",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              },
+              {
+                "id": "6fe92b8d-c768-490b-9156-ca9757e35933",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              },
+              {
+                "id": "09631ed3-1b13-40fe-9f57-f9fd95af158d",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-14",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "40bba5bc-920b-4f28-8ab3-dfacfbd40c50",
+                "subject": "NCS 수리",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              },
+              {
+                "id": "042d4cbe-3c77-4cd7-b370-833f7ce0347d",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-15",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "295b6346-82ff-45c9-acee-8b21fc6b556a",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              },
+              {
+                "id": "70d6d12c-9d63-4d15-9b91-203d5c0dcf01",
+                "subject": "NCS 의사소통",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              }
+            ]
+          },
+          {
+            "date": "2026-09-16",
+            "excluded": false,
+            "blocks": [
+              {
+                "id": "1e53e809-864f-419f-b788-264749775046",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              },
+              {
+                "id": "24b4a7be-90cb-4957-aee7-0e163a40d96a",
+                "subject": "경제학",
+                "hours": 1,
+                "focus": "기출 및 오답",
+                "completed": false
+              }
+            ]
+          }
+        ],
+        "createdAt": "2026-09-03T02:04:18.439Z"
+      }
     },
     {
       "id": "app-3",
@@ -1639,39 +2048,34 @@
         "createdAt": "2026-09-02T05:55:58.018Z",
         "updatedAt": "2026-09-02T05:56:24.491Z"
       }
+    },
+    {
+      "id": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "company": "한국OO공사",
+      "position": "사무직",
+      "title": "2026년 하반기 신입직원 공개채용",
+      "deadline": "2026-09-14",
+      "stage": "지원준비",
+      "pdfFileName": "2026ë íë°ê¸° ì²­ëì¸í´ ê³µê°ì±ì© ê³µê³ ë¬¸ (1).pdf",
+      "memo": "mock 분석 결과입니다. 저장 전 화면에서 수정하세요.",
+      "writtenTestDate": "2026-10-05",
+      "interviewDate": "",
+      "replyDeadline": "",
+      "location": "",
+      "subjects": [
+        "NCS",
+        "경제학"
+      ],
+      "requiredDocuments": [
+        "성적증명서",
+        "자격증 사본",
+        "경력증명서"
+      ],
+      "createdAt": "2026-09-03T01:43:11.751Z",
+      "updatedAt": "2026-09-03T01:43:11.751Z"
     }
   ],
   "tasks": [
-    {
-      "id": "791832ee-ec9e-4771-8955-628c3b1a6654",
-      "applicationId": "app-2",
-      "title": "입사서류 확인",
-      "category": "최종결과",
-      "dueDate": "2026-09-05",
-      "completed": true,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:08:25.210Z"
-    },
-    {
-      "id": "75aab3da-5767-4f64-ad23-d20daa26778a",
-      "applicationId": "app-2",
-      "title": "합격 발표일 확인",
-      "category": "서류전형",
-      "dueDate": "2026-09-05",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:08:41.149Z"
-    },
-    {
-      "id": "4459cbef-118d-40d8-9153-aa93eb59b354",
-      "applicationId": "app-2",
-      "title": "다음 전형 준비사항 확인",
-      "category": "서류전형",
-      "dueDate": "2026-09-05",
-      "completed": false,
-      "priority": "normal",
-      "createdAt": "2026-09-01T11:08:41.149Z"
-    },
     {
       "id": "a38a8b87-81fb-41fd-9e60-c6f53cac5993",
       "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
@@ -1701,16 +2105,6 @@
       "completed": false,
       "priority": "normal",
       "createdAt": "2026-09-01T11:20:49.188Z"
-    },
-    {
-      "id": "eee803c2-9c7e-4f86-b2c6-fd1834364fca",
-      "applicationId": "cd035b47-2898-420c-80d6-458f4f35a943",
-      "title": "필기시험 날짜 확인",
-      "category": "필기전형",
-      "dueDate": "2026-10-05",
-      "completed": false,
-      "priority": "high",
-      "createdAt": "2026-09-01T11:20:49.198Z"
     },
     {
       "id": "6ddaf384-c99f-418c-a0fb-c4ad0e33ecbf",
@@ -1911,6 +2305,156 @@
       "completed": false,
       "priority": "high",
       "createdAt": "2026-09-03T01:08:05.540Z"
+    },
+    {
+      "id": "ae09ed69-97ee-4e0f-bda9-f40662e3e9ae",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "지원자격 확인",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "ef38c279-47d1-4d9f-880b-1866deae9ab0",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "지원서 작성",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "66f6428f-e392-4591-8c96-41bf149bd3bf",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "자기소개서 작성",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "0d859ef3-c80a-45c4-a29e-362b41eca684",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "자격증 번호 확인",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "2e3a189b-0ea4-4715-aacd-4246af59a8b4",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "교육사항 확인",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "346663c1-84fd-4f6e-bed1-723821ca64cc",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "경력사항 확인",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "398aa3b3-f264-42ee-a16b-3e616500f2d7",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "첨부파일 확인",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "ba3d46ea-445a-40bb-a05b-18dcd7db5a86",
+      "applicationId": "5af77cb4-db09-4cb5-8c25-3d053d4e420b",
+      "title": "제출 전 최종검토",
+      "category": "지원준비",
+      "dueDate": "2026-09-14",
+      "completed": false,
+      "priority": "normal",
+      "createdAt": "2026-09-03T01:44:03.399Z"
+    },
+    {
+      "id": "d34a12a7-e0b4-4257-a749-c171e9f6d22c",
+      "applicationId": "app-2",
+      "title": "필기시험 날짜 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
+    },
+    {
+      "id": "d6c918c1-c864-455a-adaa-71681056e928",
+      "applicationId": "app-2",
+      "title": "시험 장소 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
+    },
+    {
+      "id": "28aa9723-1b8d-418d-a251-97114f241f0f",
+      "applicationId": "app-2",
+      "title": "입실 시간 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
+    },
+    {
+      "id": "2672c51b-1df1-42b1-9b88-04aac0ceebb8",
+      "applicationId": "app-2",
+      "title": "수험표 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
+    },
+    {
+      "id": "1ab01db3-9f2c-484c-9d13-69c7e267260e",
+      "applicationId": "app-2",
+      "title": "신분증 준비",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
+    },
+    {
+      "id": "bd4176f3-dbfe-4006-8a56-fec08a207567",
+      "applicationId": "app-2",
+      "title": "필기구 준비",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
+    },
+    {
+      "id": "727d315d-467f-4b63-aa39-32881345b59c",
+      "applicationId": "app-2",
+      "title": "교통편 확인",
+      "category": "필기전형",
+      "dueDate": "2026-09-16",
+      "completed": false,
+      "priority": "high",
+      "createdAt": "2026-09-03T01:56:34.656Z"
     }
   ],
   "studyPlans": [
@@ -3165,6 +3709,376 @@
         }
       ],
       "createdAt": "2026-09-03T01:08:30.667Z"
+    },
+    {
+      "id": "e04e5250-4b5a-4eac-ba4f-43ded591b2a0",
+      "applicationId": "app-2",
+      "examDate": "2026-09-16",
+      "weekdayHours": 2,
+      "weekendHours": 4,
+      "subjects": [
+        {
+          "name": "NCS 수리",
+          "importance": 5
+        },
+        {
+          "name": "NCS 의사소통",
+          "importance": 3
+        },
+        {
+          "name": "경제학",
+          "importance": 5
+        }
+      ],
+      "availableDays": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        0
+      ],
+      "excludedDates": [],
+      "days": [
+        {
+          "date": "2026-09-03",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "a0e546eb-ceac-4538-84df-e29109126461",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "da3e438e-938c-4173-9154-df302c493b7a",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-04",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "9aff399e-cee3-4064-b2c2-2b3fbf8748b6",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "d489623d-7929-4e36-b45d-2e6db8c061c4",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-05",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "4766a729-3825-4dd6-8edb-2e0d009fd11d",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "426d5c8b-3e54-4372-bcbb-b029b56abb1e",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "8b9069e3-1ba5-4090-8b71-feb31bcf4a3e",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "c4aa6813-f109-4add-a910-c97baa2db8ef",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-06",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "18014e54-ea8a-4286-b9a7-f58e5294b439",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "da58c980-0d2a-473e-987e-60d3df55f929",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "5ec73ee0-63b7-4025-9404-7140ad1390ea",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "243690ff-985d-4ec2-93cd-5fc80c38ab28",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-07",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "67f997ee-6209-4b68-96fb-5c7d7870f772",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            },
+            {
+              "id": "aa357428-4976-4371-804a-332fb729e02e",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "개념",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-08",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "b9bdde3f-73b0-4788-a847-ad3b70032470",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "32f41eed-1c59-4da7-85bf-655eac46a2b5",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-09",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "acded035-465c-4062-a46f-c35032b26e6e",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "6079a5ad-80a4-441d-a673-4004d2b4d81a",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-10",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "89b4fa49-303c-4f35-8981-a89d5dee4fda",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "ac41dbc7-ae56-47ad-a1fb-f170a6b5f643",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-11",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "124625cb-3497-4bc4-b770-ca57b9b1fed2",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "286298e2-9623-4e32-84a9-65d1616057c5",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-12",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "ef553bcc-1791-4927-a119-d09e3a3c1b13",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "ad7837be-d7e4-403f-8a71-6376d77381b6",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "8fdecd30-bdc1-4d13-97da-e391bf37e970",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            },
+            {
+              "id": "3bf6bb3b-7f24-4c62-8ddf-80e4e6ec42b6",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "문제풀이",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-13",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "bb4c2ca7-5ac4-4c92-a638-d5b497df16e7",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            },
+            {
+              "id": "56970509-555b-42ee-a694-b8ea8c5a2aef",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            },
+            {
+              "id": "6fe92b8d-c768-490b-9156-ca9757e35933",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            },
+            {
+              "id": "09631ed3-1b13-40fe-9f57-f9fd95af158d",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-14",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "40bba5bc-920b-4f28-8ab3-dfacfbd40c50",
+              "subject": "NCS 수리",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            },
+            {
+              "id": "042d4cbe-3c77-4cd7-b370-833f7ce0347d",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-15",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "295b6346-82ff-45c9-acee-8b21fc6b556a",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            },
+            {
+              "id": "70d6d12c-9d63-4d15-9b91-203d5c0dcf01",
+              "subject": "NCS 의사소통",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "date": "2026-09-16",
+          "excluded": false,
+          "blocks": [
+            {
+              "id": "1e53e809-864f-419f-b788-264749775046",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            },
+            {
+              "id": "24b4a7be-90cb-4957-aee7-0e163a40d96a",
+              "subject": "경제학",
+              "hours": 1,
+              "focus": "기출 및 오답",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "createdAt": "2026-09-03T02:04:18.439Z"
     }
   ]
 }

@@ -34,7 +34,9 @@ function StudyPlanPage() {
     setPlan(app.studyPlan);
     setForm((prev) => ({
       ...prev,
-      examDate: app.studyPlan?.examDate || app.writtenTestDate?.slice(0, 10) || prev.examDate,
+      examDate: app.stage === "필기전형" && app.writtenTestDate
+        ? app.writtenTestDate.slice(0, 10)
+        : app.studyPlan?.examDate || prev.examDate,
       weekdayHours: app.studyPlan?.weekdayHours || prev.weekdayHours,
       weekendHours: app.studyPlan?.weekendHours || prev.weekendHours,
       availableDays: app.studyPlan?.availableDays || prev.availableDays,
@@ -46,16 +48,11 @@ function StudyPlanPage() {
     load().catch((err) => setError(err.message));
   }, [id]);
 
-  const todayKey = useMemo(() => formatDateKey(new Date()), []);
-  const todayPlan = useMemo(() => {
-    return plan?.days?.find((day) => day.date === todayKey) || null;
-  }, [plan, todayKey]);
-
   const progress = useMemo(() => {
-    const blocks = todayPlan?.blocks || [];
+    const blocks = plan?.days?.flatMap((day) => day.blocks) || [];
     const done = blocks.filter((block) => block.completed).length;
     return { done, total: blocks.length, percent: blocks.length ? Math.round((done / blocks.length) * 100) : 0 };
-  }, [todayPlan]);
+  }, [plan]);
 
   function parseSubjects() {
     return form.subjectsText.split("\n").map((line) => {
@@ -68,7 +65,9 @@ function StudyPlanPage() {
     event.preventDefault();
     try {
       const saved = await api.createStudyPlan(id, {
-        examDate: form.examDate,
+        examDate: application.stage === "필기전형" && application.writtenTestDate
+          ? application.writtenTestDate.slice(0, 10)
+          : form.examDate,
         weekdayHours: Number(form.weekdayHours),
         weekendHours: Number(form.weekendHours),
         availableDays: form.availableDays,
@@ -76,6 +75,7 @@ function StudyPlanPage() {
         subjects: parseSubjects()
       });
       setPlan(saved);
+      setForm((prev) => ({ ...prev, examDate: saved.examDate }));
       setFeedback("현재 조건으로 공부계획을 다시 계산했습니다.");
     } catch (err) {
       setError(err.message);
@@ -124,7 +124,7 @@ function StudyPlanPage() {
 
       <form className="panel" onSubmit={createPlan}>
         <div className="form-grid">
-          <label>필기시험일<input type="date" value={form.examDate} onChange={(event) => setForm({ ...form, examDate: event.target.value })} required /></label>
+          <label>필기시험일<input type="date" value={form.examDate} onChange={(event) => setForm({ ...form, examDate: event.target.value })} disabled={application.stage === "필기전형" && Boolean(application.writtenTestDate)} required /></label>
           <label>평일 하루 공부 가능 시간<input type="number" min="0" value={form.weekdayHours} onChange={(event) => setForm({ ...form, weekdayHours: event.target.value })} /></label>
           <label>주말 하루 공부 가능 시간<input type="number" min="0" value={form.weekendHours} onChange={(event) => setForm({ ...form, weekendHours: event.target.value })} /></label>
           <label className="wide">과목별 중요도<textarea value={form.subjectsText} onChange={(event) => setForm({ ...form, subjectsText: event.target.value })} /></label>
@@ -158,27 +158,27 @@ function StudyPlanPage() {
         <div className="panel">
           <div className="section-header">
             <div>
-              <h2>오늘 공부계획</h2>
-              <p className="muted">{todayKey} · 완료율 {progress.done} / {progress.total} · {progress.percent}%</p>
+              <h2>전체 공부계획</h2>
+              <p className="muted">필기시험일까지 · 완료율 {progress.done} / {progress.total} · {progress.percent}%</p>
             </div>
           </div>
           <div className="progress-track"><span style={{ width: `${progress.percent}%` }} /></div>
           <div className="plan-list">
-            {todayPlan ? (
-              <div className={`plan-day ${todayPlan.excluded ? "excluded" : ""}`} key={todayPlan.date}>
-                <strong>{todayPlan.date}</strong>
+            {plan.days?.length ? plan.days.map((day) => (
+              <div className={`plan-day ${day.excluded ? "excluded" : ""}`} key={day.date}>
+                <strong>{day.date}</strong>
                 <div>
-                  {todayPlan.excluded && <span>오늘은 공부 제외일입니다.</span>}
-                  {!todayPlan.excluded && todayPlan.blocks.length === 0 && <span>오늘은 휴식 또는 복습일입니다.</span>}
-                  {todayPlan.blocks.map((block) => (
+                  {day.excluded && <span>이 날은 공부 제외일입니다.</span>}
+                  {!day.excluded && day.blocks.length === 0 && <span>이 날은 휴식 또는 복습일입니다.</span>}
+                  {day.blocks.map((block) => (
                     <label className="study-block" key={block.id}>
-                      <input type="checkbox" checked={block.completed} onChange={() => toggleBlock(todayPlan.date, block.id)} />
+                      <input type="checkbox" checked={block.completed} onChange={() => toggleBlock(day.date, block.id)} />
                       {block.subject} {block.hours}시간 · {block.focus}
                     </label>
                   ))}
                 </div>
               </div>
-            ) : (
+            )) : (
               <p className="empty">오늘 등록된 공부계획이 없습니다.</p>
             )}
           </div>
