@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "../services/api.js";
+import { useAuth } from "./AuthContext.jsx";
 
 const ApplicationContext = createContext(null);
 
@@ -8,6 +9,7 @@ export function ApplicationProvider({ children }) {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { user } = useAuth();
 
   const refreshApplications = useCallback(async () => {
     setLoading(true);
@@ -24,8 +26,9 @@ export function ApplicationProvider({ children }) {
 
   // useEffect는 컴포넌트가 처음 렌더링된 뒤 API에서 데이터를 가져오는 흐름을 보여줍니다.
   useEffect(() => {
-    refreshApplications();
-  }, [refreshApplications]);
+    if (user) refreshApplications();
+    else setApplications([]);
+  }, [refreshApplications, user]);
 
   const value = useMemo(
     () => ({ applications, loading, error, refreshApplications }),

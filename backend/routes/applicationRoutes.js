@@ -1,3 +1,4 @@
+// 지원 공고와 하위 체크리스트/학습계획 API의 URL과 HTTP 메서드를 선언합니다.
 import express from "express";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { validateApplication, validateStudyPlan, validateTask } from "../middleware/validate.js";
@@ -7,6 +8,7 @@ import * as studyPlanController from "../controllers/studyPlanController.js";
 
 const router = express.Router();
 
+// 지원 공고와 공고에 종속된 할 일/학습 계획 API를 한 라우터에서 관리합니다.
 router.get("/", asyncHandler(applicationController.getApplications));
 router.post("/", validateApplication, asyncHandler(applicationController.createApplication));
 router.get("/:id", asyncHandler(applicationController.getApplication));

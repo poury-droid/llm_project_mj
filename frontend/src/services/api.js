@@ -5,10 +5,17 @@ function getApiBaseUrl() {
   return `${protocol}//${host}:4000/api`;
 }
 
+import { getAccessToken } from "./supabaseAuth.js";
+
 const API_BASE_URL = getApiBaseUrl();
 
 async function request(path, options = {}) {
-  const response = await fetch(`${API_BASE_URL}${path}`, options);
+  const accessToken = getAccessToken();
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    credentials: "include",
+    ...options,
+    headers: { ...(options.headers || {}), ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}) }
+  });
   if (!response.ok) {
     const error = await response.json().catch(() => ({ message: "요청 처리 중 오류가 발생했습니다." }));
     throw new Error(error.message);
@@ -18,6 +25,10 @@ async function request(path, options = {}) {
 }
 
 export const api = {
+  register: (payload) => request("/auth/register", jsonOptions("POST", payload)),
+  login: (payload) => request("/auth/login", jsonOptions("POST", payload)),
+  getCurrentUser: () => request("/auth/me"),
+  logout: () => request("/auth/logout", { method: "POST" }),
   getDashboard: () => request("/dashboard"),
   getApplications: () => request("/applications"),
   getApplication: (id) => request(`/applications/${id}`),
@@ -29,10 +40,22 @@ export const api = {
   updateTask: (id, payload) => request(`/tasks/${id}`, jsonOptions("PATCH", payload)),
   deleteTask: (id) => request(`/tasks/${id}`, { method: "DELETE" }),
   analyzeFile: (formData) => request("/analyze/file", { method: "POST", body: formData }),
+  getStudyPlans: () => request("/study-plans"),
+  getStudyPlanById: (id) => request(`/study-plans/${id}`),
+  createPersonalStudyPlan: (payload) => request("/study-plans/personal", jsonOptions("POST", payload)),
+  updateStudyPlanById: (id, payload) => request(`/study-plans/${id}`, jsonOptions("PATCH", payload)),
+  rebalanceStudyPlan: (id) => request(`/study-plans/${id}/rebalance`, { method: "POST" }),
+  deleteStudyPlanById: (id) => request(`/study-plans/${id}`, { method: "DELETE" }),
+  updateStudyTask: (id, payload) => request(`/study-tasks/${id}`, jsonOptions("PATCH", payload)),
+  deleteStudyTask: (id) => request(`/study-tasks/${id}`, { method: "DELETE" }),
   createStudyPlan: (applicationId, payload) => request(`/applications/${applicationId}/study-plan`, jsonOptions("POST", payload)),
   getStudyPlan: (applicationId) => request(`/applications/${applicationId}/study-plan`),
   updateStudyPlan: (applicationId, payload) => request(`/applications/${applicationId}/study-plan`, jsonOptions("PATCH", payload)),
-  deleteStudyPlan: (applicationId) => request(`/applications/${applicationId}/study-plan`, { method: "DELETE" })
+  deleteStudyPlan: (applicationId) => request(`/applications/${applicationId}/study-plan`, { method: "DELETE" }),
+  getCredentials: () => request("/credentials"),
+  createCredential: (payload) => request("/credentials", jsonOptions("POST", payload)),
+  updateCredential: (id, payload) => request(`/credentials/${id}`, jsonOptions("PATCH", payload)),
+  deleteCredential: (id) => request(`/credentials/${id}`, { method: "DELETE" })
 };
 
 function jsonOptions(method, payload) {

@@ -1,9 +1,34 @@
-// 실제 PDF/OCR/LLM API는 아직 연결하지 않습니다.
-// 나중에 OpenAI API를 붙일 때 컨트롤러는 그대로 두고 이 서비스 함수만 교체하면 됩니다.
 export function analyzeJobPostingMock(fileName = "uploaded.pdf") {
   return {
     company: "한국OO공사",
-    position: "사무직",
+    position: "",
+    roleOptions: ["일반행정", "경영지원", "전산", "기술행정"],
+    roleRequirements: {
+      일반행정: {
+        eligibility: ["TOEIC 700점 이상"],
+        preferred: ["한국사능력검정시험 1급", "컴퓨터활용능력 1급"],
+        bonusItems: [{ name: "컴퓨터활용능력 1급", points: 3, sourceText: "컴퓨터활용능력 1급 보유자 +3점" }],
+        missingCheckpoints: ["어학성적 유효기간"]
+      },
+      경영지원: {
+        eligibility: ["TOEIC 700점 이상"],
+        preferred: ["전산회계", "ERP 정보관리사"],
+        bonusItems: [],
+        missingCheckpoints: ["회계 관련 자격증"]
+      },
+      전산: {
+        eligibility: ["정보처리기사 또는 관련 전공"],
+        preferred: ["SQLD", "정보보안기사"],
+        bonusItems: [{ name: "정보처리기사", points: 5, sourceText: "정보처리기사 +5점" }],
+        missingCheckpoints: ["전산 직무 필수 자격"]
+      },
+      기술행정: {
+        eligibility: ["관련 분야 기사 자격"],
+        preferred: ["산업안전기사"],
+        bonusItems: [],
+        missingCheckpoints: ["기사 자격증"]
+      }
+    },
     title: "2026년 하반기 신입직원 공개채용",
     deadline: "2026-09-14",
     stage: "지원준비",
@@ -14,9 +39,9 @@ export function analyzeJobPostingMock(fileName = "uploaded.pdf") {
     location: "",
     subjects: ["NCS", "경제학"],
     requiredDocuments: ["성적증명서", "자격증 사본", "경력증명서"],
-    notes: ["지원자격과 가산점 증빙 기준을 다시 확인하세요."],
+    notes: ["지원 직무를 선택한 뒤 해당 직무 기준으로 자격요건과 가점을 확인하세요."],
     replyRequired: false,
-    memo: "mock 분석 결과입니다. 저장 전 화면에서 수정하세요."
+    memo: "mock 분석 결과입니다. 저장 전에 직무와 항목을 확인하세요."
   };
 }
 
@@ -25,6 +50,7 @@ export function analyzeInterviewNoticeMock(fileName = "interview.png") {
     fileName,
     company: "OO연구원",
     position: "연구행정",
+    roleOptions: ["연구행정"],
     title: "면접 전형 안내",
     deadline: "2026-10-15",
     stage: "면접전형",
@@ -35,7 +61,7 @@ export function analyzeInterviewNoticeMock(fileName = "interview.png") {
     replyDeadline: "2026-10-15",
     subjects: [],
     requiredDocuments: ["졸업증명서", "성적증명서"],
-    notes: ["면접 장소와 입실 시간을 전날 다시 확인하세요."],
+    notes: ["면접 장소와 입실 시간을 확인하세요."],
     replyRequired: true,
     memo: "mock 이미지 분석 결과입니다."
   };
@@ -46,6 +72,7 @@ export function analyzeWrittenTestMock(fileName = "written-test.png") {
     fileName,
     company: "서울OO공단",
     position: "행정",
+    roleOptions: ["행정"],
     title: "필기시험 안내",
     deadline: "2026-09-05",
     stage: "필기전형",
@@ -85,7 +112,7 @@ export function buildSuggestedTasks(analysis, documentType) {
   const tasks = [];
   if (analysis.replyRequired && analysis.replyDeadline) {
     tasks.push({
-      title: "면접 참석 여부 메일 회신",
+      title: "면접 참석 여부 회신",
       category: "회신",
       dueDate: analysis.replyDeadline,
       priority: "high",

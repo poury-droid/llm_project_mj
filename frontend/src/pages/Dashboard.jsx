@@ -78,7 +78,7 @@ function Dashboard() {
 
       <div className="summary-grid">
         <div className="metric"><span>진행 중 지원</span><strong>{dashboard.activeCount}</strong></div>
-        <div className="metric"><span>이번 주 마감</span><strong>{dashboard.weekDeadlines.length}</strong></div>
+        <div className="metric"><span>이번 주 D-Day</span><strong>{dashboard.weekDeadlines.length}</strong></div>
         <div className="metric"><span>오늘 할 일</span><strong>{dashboard.todayTasks.length}</strong></div>
         <div className="metric"><span>3일 이내</span><strong>{dashboard.threeDayTasks.length}</strong></div>
       </div>
@@ -86,7 +86,7 @@ function Dashboard() {
       <div className="two-column dashboard-top-grid">
         <section className="panel calendar-panel">
           <div className="section-header compact">
-            <div><h2>전형 일정</h2><p className="muted">지원 마감과 시험·면접 일정을 한눈에 확인하세요.</p></div>
+            <div><h2>전형 일정</h2><p className="muted">현재 전형 단계의 D-Day만 한눈에 확인하세요.</p></div>
             <div className="calendar-nav">
               <button className="icon-button" aria-label="이전 달" onClick={() => shiftMonth(setCalendarMonth, -1)}>‹</button>
               <strong>{calendarMonth.getFullYear()}년 {calendarMonth.getMonth() + 1}월</strong>
@@ -105,14 +105,14 @@ function Dashboard() {
           <div className="calendar-legend"><span><i className="legend-dot deadline" />마감</span><span><i className="legend-dot written" />필기</span><span><i className="legend-dot interview" />면접</span></div>
         </section>
         <section className="panel">
-          <div className="section-header compact"><div><h2>오늘의 공부계획</h2><p className="muted">오늘 날짜에 배정된 공부 항목만 보여줍니다.</p></div><Link className="button secondary" to="/applications">공부계획 보기</Link></div>
+          <div className="section-header compact"><div><h2>오늘의 공부계획</h2><p className="muted">오늘 날짜에 배정된 공부 항목만 보여줍니다.</p></div><Link className="button secondary" to={dashboard.studyPlanApplicationId ? `/applications/${dashboard.studyPlanApplicationId}/study-plan` : "/applications"}>공부계획 보기</Link></div>
           <StudyChecklist items={dashboard.studyChecklist || []} onToggle={toggleStudyBlock} />
         </section>
       </div>
 
       {dashboard.nearestEvent && (
         <div className="panel highlight">
-          <h2>가장 가까운 시험 또는 면접</h2>
+          <h2>가장 가까운 전형 D-Day</h2>
           <p>{dashboard.nearestEvent.company} · {dashboard.nearestEvent.type} <DdayBadge date={dashboard.nearestEvent.date} /></p>
         </div>
       )}
@@ -164,7 +164,7 @@ function Dashboard() {
       <h2>지원 공고별 현재 전형 단계</h2>
       <div className="card-grid">
         {dashboard.stages.map((item) => (
-          <ApplicationCard key={item.id} application={item} />
+          <ApplicationCard key={item.id} application={item} currentDdayOnly />
         ))}
       </div>
     </section>
@@ -222,7 +222,7 @@ function StudyChecklist({ items, onToggle }) {
         <li key={item.id}>
           <label className="task-summary-item">
             <input type="checkbox" onChange={() => onToggle(item)} />
-            <span><strong>{item.company}</strong><small>{item.subject} · {item.focus}</small></span>
+            <span><strong>{item.company || item.examName || "개인 시험"}</strong><small>{item.subject || "기타"}{item.materialName ? ` · ${item.materialName}` : ""}</small><small>{item.studyMethod || item.method || "공부"}{item.studyRange ? ` · ${item.studyRange}` : ""}{item.hours ? ` · ${item.hours}시간` : ""}</small></span>
           </label>
           <time>{formatShortDate(item.date)}</time>
         </li>

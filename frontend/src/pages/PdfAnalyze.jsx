@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AnalysisResultEditor from "../components/AnalysisResultEditor.jsx";
 import FileUpload from "../components/FileUpload.jsx";
@@ -11,7 +11,12 @@ function PdfAnalyze() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [suggestedTasks, setSuggestedTasks] = useState([]);
   const [lastFormData, setLastFormData] = useState(null);
+  const [credentials, setCredentials] = useState([]);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    api.getCredentials().then(setCredentials).catch(() => setCredentials([]));
+  }, []);
 
   async function analyze(formData = lastFormData) {
     if (!formData) return;
@@ -25,7 +30,17 @@ function PdfAnalyze() {
   async function save() {
     try {
       const saved = await api.createApplication(analysisResult);
-      for (const task of suggestedTasks) {
+      const tasks = [...suggestedTasks];
+      if (analysisResult.replyRequired && !tasks.some((task) => task.category === "회신" || task.title?.includes("회신"))) {
+        tasks.unshift({
+          title: "회신 필요 여부 확인 및 회신",
+          category: "회신",
+          dueDate: analysisResult.replyDeadline || analysisResult.deadline || "",
+          priority: "high",
+          defaultAction: "add"
+        });
+      }
+      for (const task of tasks) {
         const action = task.action || task.defaultAction;
         if (action === "add" || action === "done") {
           await api.createTask(saved.id, { ...task, completed: action === "done" });
@@ -53,6 +68,7 @@ function PdfAnalyze() {
         setResult={setAnalysisResult}
         suggestedTasks={suggestedTasks}
         setSuggestedTasks={setSuggestedTasks}
+        credentials={credentials}
         onReanalyze={() => analyze()}
         onSave={save}
         saveLabel="이대로 등록"

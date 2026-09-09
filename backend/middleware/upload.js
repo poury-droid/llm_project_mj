@@ -1,3 +1,4 @@
+// multipart/form-data의 업로드 파일을 메모리에서 읽어 분석 서비스로 전달합니다.
 import multer from "multer";
 
 const allowedMimeTypes = new Set([

@@ -1,3 +1,4 @@
+// 요청 본문의 필수값과 허용된 상태/우선순위를 Controller 전에 검증합니다.
 const stages = ["관심공고", "지원준비", "서류전형", "필기전형", "면접전형", "최종결과"];
 const priorities = ["low", "normal", "high", "urgent"];
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ApplicationDdayList from "./ApplicationDdayList.jsx";
 
-function ApplicationCard({ application }) {
+function ApplicationCard({ application, currentDdayOnly = false }) {
   return (
     <article className="card app-card">
       <div>
@@ -12,7 +12,7 @@ function ApplicationCard({ application }) {
       <div className="card-meta">
         <span>현재 단계: {application.stage}</span>
       </div>
-      <ApplicationDdayList application={application} />
+      <ApplicationDdayList application={application} currentOnly={currentDdayOnly} />
       <Link className="button secondary" to={`/applications/${application.id}`}>상세 보기</Link>
     </article>
   );

@@ -1,3 +1,4 @@
+// 업로드된 파일의 종류에 따라 분석 서비스 함수를 호출하는 Controller입니다.
 import { analyzeFileMock, analyzeInterviewNoticeMock, analyzeJobPostingMock } from "../services/analysisService.js";
 
 export async function analyzeJobPosting(req, res) {

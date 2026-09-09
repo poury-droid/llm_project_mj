@@ -1,3 +1,4 @@
+// 지원 공고의 등록, 조회, 수정, 삭제와 단계별 체크리스트 생성을 담당합니다.
 import * as applicationRepo from "../repositories/applicationRepository.js";
 import * as taskRepo from "../repositories/taskRepository.js";
 import * as studyRepo from "../repositories/studyPlanRepository.js";

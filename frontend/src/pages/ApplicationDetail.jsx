@@ -38,6 +38,7 @@ function ApplicationDetail() {
     const done = application?.tasks?.filter((task) => task.completed).length || 0;
     return { total, done, percent: total ? Math.round((done / total) * 100) : 0 };
   }, [application]);
+  const studyPlanButtonLabel = application?.studyPlan ? "공부계획 보기" : "공부계획 만들기";
 
   async function addTask(event) {
     event.preventDefault();
@@ -97,7 +98,7 @@ function ApplicationDetail() {
             <div className="progress-track"><span style={{ width: `${progress.percent}%` }} /></div>
             <small>{progress.percent}% 완료</small>
           </div>
-          {application.stage === "필기전형" && <Link className="button" to={`/applications/${id}/study-plan`}>공부계획 만들기</Link>}
+          <Link className="button" to={application?.studyPlan ? `/applications/${id}/study-plan` : `/applications/${id}/study-plan/new`}>{studyPlanButtonLabel}</Link>
         </div>
       </div>
 

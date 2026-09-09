@@ -5,11 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "db:create": "node db/create-database.js",
+    "db:migrate": "node db/migrate-json-to-postgres.js",
+    "db:init": "npm run db:create && npm run db:migrate"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "pg": "^8.13.1"
   }
 }
