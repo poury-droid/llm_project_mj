@@ -1,0 +1,12 @@
+.study-schedule-settings{border:1px solid #dce3ed;border-radius:12px;padding:18px;margin:16px 0;min-width:0}
+.study-schedule-settings legend{font-weight:700;padding:0 6px}
+.schedule-checks{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:12px 0}
+.schedule-check{display:flex!important;flex-direction:row!important;align-items:center;gap:8px}
+.schedule-check input{width:auto!important}
+.study-task-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:16px 0}
+.study-task-form label{display:flex;flex-direction:column;gap:6px;min-width:0}
+.study-task-form .schedule-checks{grid-column:1/-1}
+.study-task-form input,.study-task-form select{width:100%;min-width:0}
+.schedule-day-actions{margin-top:12px}
+.schedule-settings-actions{display:flex;justify-content:flex-end;margin-bottom:20px}
+@media(max-width:760px){.study-task-form{grid-template-columns:1fr}.schedule-settings-actions .button{width:100%}}

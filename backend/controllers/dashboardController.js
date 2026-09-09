@@ -49,6 +49,7 @@ export async function getDashboard(req, res) {
   const studyChecklist = studyPlans
     .flatMap((plan) => plan.days.flatMap((day) => day.blocks.map((block) => ({
       ...block,
+      studyPlanId: plan.id,
       applicationId: plan.applicationId,
       personalExamId: plan.personalExamId,
       examName: plan.examName,

@@ -48,8 +48,22 @@ function ApplicationDetail() {
   }
 
   async function toggleTask(task, completed) {
-    await taskActions.updateTask(task.id, { completed });
-    setFeedback(`${task.title} ${completed ? "완료" : "완료 취소"} · 남은 준비사항이 다시 계산되었습니다.`);
+    setError("");
+    // 체크 즉시 화면에 반영하고, API 저장이 실패하면 원래 상태로 되돌립니다.
+    setApplication((current) => current ? {
+      ...current,
+      tasks: (current.tasks || []).map((item) => item.id === task.id ? { ...item, completed } : item)
+    } : current);
+    try {
+      await taskActions.updateTask(task.id, { completed: Boolean(completed) });
+      setFeedback(`${task.title} ${completed ? "완료" : "완료 취소"} · 저장되었습니다.`);
+    } catch (err) {
+      setApplication((current) => current ? {
+        ...current,
+        tasks: (current.tasks || []).map((item) => item.id === task.id ? { ...item, completed: Boolean(task.completed) } : item)
+      } : current);
+      setError(`체크 상태를 저장하지 못했습니다: ${err.message}`);
+    }
   }
 
   async function changeStage(stage) {

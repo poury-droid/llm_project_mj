@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "node --watch server.js",
     "start": "node server.js",
+    "test:study": "node --test services/studySchedule.test.js",
     "db:create": "node db/create-database.js",
+    "db:check": "node db/check-connection.js",
+    "db:save-connection": "node db/save-connection.js",
     "db:migrate": "node db/migrate-json-to-postgres.js",
     "db:init": "npm run db:create && npm run db:migrate"
   },

@@ -73,7 +73,15 @@ export async function updateStudyPlan(req, res) {
 export async function rebalanceStudyPlan(req, res) {
   const plan = await studyRepo.findStudyPlanById(req.params.id) || await studyRepo.findStudyPlanByApplicationId(req.params.id);
   if (!plan) return res.status(404).json({ message: "공부계획을 찾을 수 없습니다." });
-  const rebalanced = rebalanceIncompletePlan(plan);
+  const nextPlan = {
+    ...plan,
+    weekdayHours: Number(req.body?.weekdayHours ?? plan.weekdayHours),
+    weekendHours: Number(req.body?.weekendHours ?? plan.weekendHours)
+  };
+  if ([nextPlan.weekdayHours, nextPlan.weekendHours].some((hours) => !Number.isInteger(hours) || hours < 0 || hours > 24)) {
+    return res.status(400).json({ message: "평일·주말 공부시간은 0~24 사이의 정수로 입력해주세요." });
+  }
+  const rebalanced = rebalanceIncompletePlan(nextPlan, req.body?.scheduleOptions || plan.scheduleOptions);
   const saved = await studyRepo.updateStudyPlan(plan.id, rebalanced);
   res.json(saved);
 }

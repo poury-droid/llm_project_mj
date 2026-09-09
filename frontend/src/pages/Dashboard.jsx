@@ -39,14 +39,17 @@ function Dashboard() {
 
   async function toggleStudyBlock(block) {
     try {
-      const plan = await api.getStudyPlan(block.applicationId);
+      const plan = block.studyPlanId
+        ? await api.getStudyPlanById(block.studyPlanId)
+        : await api.getStudyPlan(block.applicationId);
       const nextPlan = {
         ...plan,
         days: plan.days.map((day) => day.date === block.date
           ? { ...day, blocks: day.blocks.map((item) => item.id === block.id ? { ...item, completed: true } : item) }
           : day)
       };
-      await api.updateStudyPlan(block.applicationId, nextPlan);
+      if (block.studyPlanId) await api.updateStudyPlanById(block.studyPlanId, nextPlan);
+      else await api.updateStudyPlan(block.applicationId, nextPlan);
       await loadDashboard();
     } catch (err) {
       setError(err.message);
@@ -149,7 +152,7 @@ function Dashboard() {
               <ul className="overview-task-list">
                 {group.tasks.map((task) => (
                   <li className={task.completed ? "done" : ""} key={task.id}>
-                    <span className="task-check" aria-hidden="true">{task.completed ? "✓" : ""}</span>
+                    <input className="task-check-input" type="checkbox" checked={Boolean(task.completed)} aria-label={`${task.title} 완료`} onChange={(event) => toggleTask(task, event.target.checked)} />
                     <span>{task.title}</span>
                     <small>{task.category}</small>
                   </li>

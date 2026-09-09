@@ -1,4 +1,5 @@
 // PostgreSQL 서버에 대상 데이터베이스가 없을 때 한 번 실행하는 초기화 스크립트입니다.
+import "../config/env.js";
 import pg from "pg";
 
 const { Client } = pg;

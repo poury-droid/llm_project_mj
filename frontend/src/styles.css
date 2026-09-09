@@ -653,6 +653,15 @@ h3 {
   gap: 8px;
 }
 
+.task-row label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  padding: 0;
+  cursor: pointer;
+  accent-color: var(--blue);
+}
+
 .task-row.done {
   background: #eff4ff;
   color: #7a8596;
@@ -1169,6 +1178,14 @@ textarea {
 .overview-task-list li.done .task-check {
   border-color: var(--blue);
   background: var(--blue);
+}
+
+.task-check-input {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  accent-color: var(--blue);
+  cursor: pointer;
 }
 
 .login-page {

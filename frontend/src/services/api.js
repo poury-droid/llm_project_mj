@@ -44,7 +44,7 @@ export const api = {
   getStudyPlanById: (id) => request(`/study-plans/${id}`),
   createPersonalStudyPlan: (payload) => request("/study-plans/personal", jsonOptions("POST", payload)),
   updateStudyPlanById: (id, payload) => request(`/study-plans/${id}`, jsonOptions("PATCH", payload)),
-  rebalanceStudyPlan: (id) => request(`/study-plans/${id}/rebalance`, { method: "POST" }),
+  rebalanceStudyPlan: (id, payload = {}) => request(`/study-plans/${id}/rebalance`, jsonOptions("POST", payload)),
   deleteStudyPlanById: (id) => request(`/study-plans/${id}`, { method: "DELETE" }),
   updateStudyTask: (id, payload) => request(`/study-tasks/${id}`, jsonOptions("PATCH", payload)),
   deleteStudyTask: (id) => request(`/study-tasks/${id}`, { method: "DELETE" }),

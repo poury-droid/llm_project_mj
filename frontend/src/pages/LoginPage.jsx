@@ -25,6 +25,15 @@ function LoginPage() {
     setForm((current) => ({ ...current, password: "", confirmPassword: "" }));
   }
 
+  async function handleGoogleSignIn() {
+    setError("");
+    try {
+      await signInWithGoogle();
+    } catch (loginError) {
+      setError(loginError.message || "Google 로그인을 시작하지 못했습니다. 다시 시도해 주세요.");
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
@@ -53,7 +62,7 @@ function LoginPage() {
         {mode === "login" && (
           <>
             <div className="login-divider"><span>또는</span></div>
-            <button className="button google-button full" onClick={signInWithGoogle} type="button">Google로 로그인</button>
+            <button className="button google-button full" onClick={handleGoogleSignIn} type="button">Google로 로그인</button>
           </>
         )}
       </section>

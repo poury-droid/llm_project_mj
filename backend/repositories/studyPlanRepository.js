@@ -18,6 +18,7 @@ function toStudyPlan(row) {
     excludedDates: row.excluded_dates || [],
     phaseMode: row.phase_mode || "auto",
     manualPhases: row.manual_phases || [],
+    scheduleOptions: row.schedule_options || {},
     days: row.days || [],
     progress: row.progress || { total: 0, done: 0, percent: 0, bySubject: {} },
     createdAt: row.created_at,
@@ -40,12 +41,13 @@ const columnByField = {
   excludedDates: "excluded_dates",
   phaseMode: "phase_mode",
   manualPhases: "manual_phases",
+  scheduleOptions: "schedule_options",
   days: "days",
   progress: "progress",
   updatedAt: "updated_at"
 };
 
-const jsonFields = new Set(["subjects", "availableDays", "excludedDates", "manualPhases", "days", "progress"]);
+const jsonFields = new Set(["subjects", "availableDays", "excludedDates", "manualPhases", "scheduleOptions", "days", "progress"]);
 
 export async function findStudyPlanById(id) {
   const result = await query("SELECT * FROM study_plans WHERE id = $1", [id]);
@@ -77,9 +79,9 @@ export async function upsertStudyPlan(plan) {
       INSERT INTO study_plans (
         id, type, application_id, personal_exam_id, exam_name, exam_date, target, current_level,
         weekday_hours, weekend_hours, subjects, available_days, excluded_dates,
-        phase_mode, manual_phases, days, progress, created_at, updated_at
+        phase_mode, manual_phases, days, progress, created_at, updated_at, schedule_options
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12::jsonb, $13::jsonb, $14, $15::jsonb, $16::jsonb, $17::jsonb, $18, $19)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12::jsonb, $13::jsonb, $14, $15::jsonb, $16::jsonb, $17::jsonb, $18, $19, $20::jsonb)
       ON CONFLICT (id) DO UPDATE SET
         type = EXCLUDED.type,
         application_id = EXCLUDED.application_id,
@@ -95,6 +97,7 @@ export async function upsertStudyPlan(plan) {
         excluded_dates = EXCLUDED.excluded_dates,
         phase_mode = EXCLUDED.phase_mode,
         manual_phases = EXCLUDED.manual_phases,
+        schedule_options = EXCLUDED.schedule_options,
         days = EXCLUDED.days,
         progress = EXCLUDED.progress,
         updated_at = EXCLUDED.updated_at
@@ -119,7 +122,8 @@ export async function upsertStudyPlan(plan) {
       JSON.stringify(plan.days || []),
       JSON.stringify(plan.progress || { total: 0, done: 0, percent: 0, bySubject: {} }),
       plan.createdAt || new Date().toISOString(),
-      plan.updatedAt || new Date().toISOString()
+      plan.updatedAt || new Date().toISOString(),
+      JSON.stringify(plan.scheduleOptions || {})
     ]
   );
   return toStudyPlan(result.rows[0]);

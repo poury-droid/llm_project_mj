@@ -40,7 +40,17 @@ function TaskList({ tasks, onToggle, onUpdate, onDelete }) {
             ) : (
               <>
                 <label>
-                  <input type="checkbox" checked={task.completed} onChange={(event) => onToggle(task, event.target.checked)} />
+                  <input
+                    type="checkbox"
+                    checked={Boolean(task.completed)}
+                    aria-label={`${task.title} 완료`}
+                    onChange={() => {}}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      onToggle(task, !Boolean(task.completed));
+                    }}
+                  />
                   <span>{task.title}</span>
                 </label>
                 <span className="muted">{task.category}</span>

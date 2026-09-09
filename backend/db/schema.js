@@ -1,7 +1,29 @@
 // 서버 시작 시 필요한 테이블과 인덱스를 멱등적으로 생성합니다.
-import { query } from "./pool.js";
+import { withTransaction } from "./pool.js";
 
 export async function ensureDatabase() {
+  // 테이블과 접근 제한을 함께 커밋해 초기화 도중 데이터가 노출되지 않게 합니다.
+  await withTransaction(async (client) => {
+    await client.query("SET LOCAL search_path TO public");
+    await createSchema(client.query.bind(client));
+    const browserRoles = await client.query(
+      "SELECT rolname FROM pg_catalog.pg_roles WHERE rolname IN ('anon', 'authenticated')"
+    );
+    // 브라우저의 Supabase Data API 접근은 차단합니다.
+    // 앱은 인증을 확인한 Express 서버에서 테이블 소유자 연결로 조회합니다.
+    for (const table of ["users", "sessions", "applications", "tasks", "study_plans", "user_credentials"]) {
+      await client.query(`ALTER TABLE public.${table} ENABLE ROW LEVEL SECURITY`);
+      await client.query(`REVOKE ALL ON TABLE public.${table} FROM PUBLIC`);
+      for (const { rolname } of browserRoles.rows) {
+        if (rolname === "anon" || rolname === "authenticated") {
+          await client.query(`REVOKE ALL ON TABLE public.${table} FROM ${rolname}`);
+        }
+      }
+    }
+  });
+}
+
+async function createSchema(query) {
   await query(`
     CREATE TABLE IF NOT EXISTS users (
       id uuid PRIMARY KEY,
@@ -84,6 +106,7 @@ export async function ensureDatabase() {
   await query("ALTER TABLE study_plans ADD COLUMN IF NOT EXISTS current_level text NOT NULL DEFAULT '';");
   await query("ALTER TABLE study_plans ADD COLUMN IF NOT EXISTS phase_mode text NOT NULL DEFAULT 'auto';");
   await query("ALTER TABLE study_plans ADD COLUMN IF NOT EXISTS manual_phases jsonb NOT NULL DEFAULT '[]'::jsonb;");
+  await query("ALTER TABLE study_plans ADD COLUMN IF NOT EXISTS schedule_options jsonb NOT NULL DEFAULT '{}'::jsonb;");
   await query("ALTER TABLE study_plans ADD COLUMN IF NOT EXISTS progress jsonb NOT NULL DEFAULT '{\"total\":0,\"done\":0,\"percent\":0,\"bySubject\":{}}'::jsonb;");
   await query("ALTER TABLE study_plans ALTER COLUMN application_id DROP NOT NULL;");
 

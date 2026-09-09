@@ -1,0 +1,2 @@
+# PC-specific credentials must not be committed.
+**/.env.local

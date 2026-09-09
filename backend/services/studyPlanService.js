@@ -1,4 +1,5 @@
 import { addDays, daysBetween, formatDate } from "../utils/dateUtils.js";
+import { generateDailySchedule, normalizeScheduleOptions, redistributeSchedule } from "./studySchedule.js";
 
 const methodByPhase = {
   concept: ["개념 학습", "복습"],
@@ -64,11 +65,6 @@ function pickMethod(subject, phaseKey) {
   return preferred.find((method) => subject.methods.includes(method)) || subject.methods[0] || "복습";
 }
 
-function pickMaterial(subject, cursor) {
-  if (!subject.materials.length) return null;
-  return subject.materials[cursor % subject.materials.length];
-}
-
 function buildRange(material, progressMap, method) {
   if (!material) return { label: "", startRange: "", endRange: "" };
   const chunkSize = method.includes("모의고사") || method.includes("기출") ? 1 : 25;
@@ -118,7 +114,8 @@ export function generateStudyPlan({
   excludedDates,
   phaseMode = "auto",
   manualPhases = [],
-  intensity = "normal"
+  intensity = "normal",
+  scheduleOptions
 }) {
   const today = new Date();
   const totalDays = daysBetween(today, examDate);
@@ -134,6 +131,19 @@ export function generateStudyPlan({
     const error = new Error("공부 과목을 1개 이상 입력해야 합니다.");
     error.status = 400;
     throw error;
+  }
+
+  if (scheduleOptions) {
+    const plan = {
+      id: crypto.randomUUID(), type, applicationId, personalExamId, examName, examDate,
+      target, currentLevel, weekdayHours: Number(weekdayHours), weekendHours: Number(weekendHours),
+      subjects: normalizedSubjects, availableDays: availableDays || [0, 1, 2, 3, 4, 5, 6],
+      excludedDates: excludedDates || [], phaseMode, manualPhases, intensity,
+      scheduleOptions: normalizeScheduleOptions(scheduleOptions),
+      createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
+    };
+    plan.days = generateDailySchedule(plan);
+    return { ...plan, progress: calculateProgress(plan) };
   }
 
   let cursor = 0;
@@ -179,7 +189,8 @@ export function generateStudyPlan({
         ? manualPhases.find((item) => item.startDate <= dateKey && dateKey <= item.endDate)?.name || autoPhase
         : autoPhase;
       const method = pickMethod(subject, phase);
-      const material = pickMaterial(subject, cursor);
+      const unfinishedMaterials = subject.materials.filter((material) => !Number(material.totalAmount) || (materialProgress.get(material.id) || 0) < Number(material.totalAmount));
+      const material = unfinishedMaterials[cursor % unfinishedMaterials.length];
       const range = buildRange(material, materialProgress, method);
       if (!range) { cursor += 1; hour -= 1; continue; }
       blocks.push({
@@ -228,32 +239,7 @@ export function generateStudyPlan({
   return { ...plan, progress: calculateProgress(plan) };
 }
 
-export function rebalanceIncompletePlan(plan) {
-  const todayKey = formatDate(new Date());
-  const remaining = [];
-  const days = (plan.days || []).map((day) => ({
-    ...day,
-    blocks: (day.blocks || []).filter((block) => {
-      if (block.completed) return true;
-      remaining.push({ ...block, completed: false });
-      return false;
-    })
-  }));
-
-  let cursor = 0;
-  const nextDays = days.map((day) => {
-    if (day.excluded || day.date < todayKey || !remaining.length) return day;
-    const dayOfWeek = new Date(day.date).getDay();
-    const plannedCapacity = Number(dayOfWeek === 0 || dayOfWeek === 6 ? plan.weekendHours : plan.weekdayHours);
-    const capacity = Math.max(1, plannedCapacity);
-    const blocks = [...(day.blocks || [])];
-    while (blocks.length < capacity && cursor < remaining.length) {
-      blocks.push({ ...remaining[cursor], id: crypto.randomUUID() });
-      cursor += 1;
-    }
-    return { ...day, blocks };
-  });
-
-  const nextPlan = { ...plan, days: nextDays, updatedAt: new Date().toISOString() };
-  return { ...nextPlan, progress: calculateProgress(nextPlan) };
+export function rebalanceIncompletePlan(plan, scheduleOptions = plan.scheduleOptions) {
+  const next = redistributeSchedule(plan, scheduleOptions);
+  return { ...next, progress: calculateProgress(next) };
 }
