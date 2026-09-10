@@ -19,11 +19,27 @@ function toStudyPlan(row) {
     phaseMode: row.phase_mode || "auto",
     manualPhases: row.manual_phases || [],
     scheduleOptions: row.schedule_options || {},
-    days: row.days || [],
+    days: normalizeStudyDays(row.days || []),
     progress: row.progress || { total: 0, done: 0, percent: 0, bySubject: {} },
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };
+}
+
+function normalizeStudyDays(days) {
+  return days.map((day) => ({
+    ...day,
+    blocks: (day.blocks || []).map((block) => ({
+      ...block,
+      hours: normalizeStudyHours(block.hours)
+    }))
+  }));
+}
+
+function normalizeStudyHours(hours) {
+  const value = Number(hours);
+  if (!Number.isFinite(value)) return hours;
+  return Number(value.toFixed(1));
 }
 
 const columnByField = {

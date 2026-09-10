@@ -84,6 +84,7 @@
 }
 
 .fit-panel,
+.ocr-panel,
 .soft-panel {
   margin: 16px 0;
   padding: 16px;
@@ -1482,6 +1483,26 @@ input:focus, select:focus, textarea:focus { outline: 2px solid rgba(23, 38, 61, 
     display: grid;
     justify-content: stretch;
   }
+}
+
+.ocr-panel details {
+  margin-top: 10px;
+}
+
+.ocr-panel summary {
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.ocr-panel pre {
+  max-height: 260px;
+  margin: 12px 0 0;
+  padding: 12px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid var(--soft-line);
+  background: #f8f8f5;
 }
 
 /* Polished login + practical dashboard refinement */

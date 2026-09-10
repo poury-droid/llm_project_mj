@@ -60,7 +60,11 @@ export async function getDashboard(req, res) {
     .filter((block) => !block.completed && !block.excluded && daysBetween(today, block.date) === 0)
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 8)
-    .map((block) => ({ ...block, company: applicationById.get(block.applicationId)?.company || "" }));
+    .map((block) => ({
+      ...block,
+      hours: formatStudyHours(block.hours),
+      company: applicationById.get(block.applicationId)?.company || ""
+    }));
 
   res.json({
     activeCount: active.length,
@@ -85,6 +89,12 @@ export async function getDashboard(req, res) {
       replyDeadline: app.replyDeadline
     }))
   });
+}
+
+function formatStudyHours(hours) {
+  const value = Number(hours);
+  if (!Number.isFinite(value)) return hours;
+  return Number(value.toFixed(1));
 }
 
 function getApplicationEvents(app) {

@@ -9,6 +9,12 @@ import "../styles/studyTaskEdit.css";
 import "../styles/studyTaskMenu.css";
 
 const emptyTask = (date) => ({ date, subject: "", materialName: "", method: "개념", rangeLabel: "", hours: 1 });
+function formatStudyHours(hours) {
+  const value = Number(hours);
+  if (!Number.isFinite(value)) return hours;
+  return value.toFixed(1);
+}
+
 function getProgress(plan) {
   const tasks = (plan?.days || []).flatMap((day) => day.blocks || []);
   const bySubject = {};
@@ -115,7 +121,7 @@ export default function StudyPlanDetail() {
       {(day.blocks || []).map((task) => <div className={"detail-task " + (task.completed ? "completed" : "")} key={task.id}>
         <input type="checkbox" aria-label={task.subject + " " + task.method + " 완료"} checked={Boolean(task.completed)} disabled={busy || Boolean(editor)} onChange={() => toggleTask(task)} />
         <span className="task-main"><strong>{task.subject || "기타"}</strong><span>{task.materialName || "자료 미입력"}</span><small>{task.method || "공부"} · {task.rangeLabel || "전체 범위"}</small></span>
-        <b>{Number(Number(task.hours || 0).toFixed(2))}시간</b>
+        <b>{formatStudyHours(task.hours || 0)}시간</b>
         <div className="task-more-menu"><button className="icon-button task-edit-button" type="button" aria-label="항목 옵션" disabled={busy || Boolean(editor)} onClick={() => setTaskMenuId(taskMenuId === task.id ? "" : task.id)}>⋯</button>{taskMenuId === task.id && <div className="task-more-panel"><button type="button" onClick={() => startEdit(task, day.date)}>수정·날짜 이동</button><button className="danger-text" type="button" onClick={() => deleteTask(task)}>삭제</button></div>}</div>
       </div>)}
       {!(day.blocks || []).length && <p className="muted">{day.excluded ? "공부하지 않는 날짜입니다." : "배정된 공부가 없습니다. 원하는 공부를 추가해보세요."}</p>}

@@ -272,7 +272,7 @@ function StudyChecklist({ items, onToggle }) {
             <span>
               <strong>{item.company || item.examName || "개인 시험"}</strong>
               <small>{item.subject || "기타"}{item.materialName ? ` · ${item.materialName}` : ""}</small>
-              <small>{item.studyMethod || item.method || "공부"}{item.studyRange ? ` · ${item.studyRange}` : ""}{item.hours ? ` · ${item.hours}시간` : ""}</small>
+              <small>{item.studyMethod || item.method || "공부"}{item.studyRange ? ` · ${item.studyRange}` : ""}{item.hours ? ` · ${formatStudyHours(item.hours)}시간` : ""}</small>
             </span>
           </label>
           <time>{formatShortDate(item.date)}</time>
@@ -280,6 +280,12 @@ function StudyChecklist({ items, onToggle }) {
       ))}
     </ul>
   );
+}
+
+function formatStudyHours(hours) {
+  const value = Number(hours);
+  if (!Number.isFinite(value)) return hours;
+  return value.toFixed(1);
 }
 
 export default Dashboard;

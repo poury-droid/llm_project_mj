@@ -65,6 +65,8 @@ function AnalysisResultEditor({
 
       <ApplicationFormFields form={result} setForm={setResult} />
 
+      <OcrResult result={result} />
+
       <QualificationFit fit={fit} />
 
       <EditableChips title="시험과목" name="subjects" items={result.subjects || []} onAdd={addListItem} onRemove={removeListItem} />
@@ -97,6 +99,38 @@ function AnalysisResultEditor({
       </div>
     </form>
   );
+}
+
+function OcrResult({ result }) {
+  if (!result?.ocrStatus) return null;
+  const hasText = Boolean(result.ocrText);
+
+  return (
+    <div className="ocr-panel">
+      <div className="section-header compact">
+        <h3>OCR 인식 결과</h3>
+        <strong>{getOcrStatusLabel(result.ocrStatus, result.ocrConfidence, result.ocrEngine)}</strong>
+      </div>
+      {result.ocrMessage && <p className="muted">{result.ocrMessage}</p>}
+      {result.analysisEngine && <p className="muted">분석 엔진: {result.analysisEngine}{result.analysisMessage ? ` · ${result.analysisMessage}` : ""}</p>}
+      {hasText ? (
+        <details>
+          <summary>인식된 원문 보기</summary>
+          <pre>{result.ocrText}</pre>
+        </details>
+      ) : (
+        <p className="muted">인식된 텍스트가 없습니다.</p>
+      )}
+    </div>
+  );
+}
+
+function getOcrStatusLabel(status, confidence, engine) {
+  const engineLabel = engine ? `${engine} · ` : "";
+  if (status === "success") return `${engineLabel}성공 ${confidence || 0}%`;
+  if (status === "empty") return `${engineLabel}텍스트 없음`;
+  if (status === "failed") return `${engineLabel}실패`;
+  return `${engineLabel}건너뜀`;
 }
 
 function QualificationFit({ fit }) {
