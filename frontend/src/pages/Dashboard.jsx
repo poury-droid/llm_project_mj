@@ -70,73 +70,106 @@ function Dashboard() {
   if (!dashboard) return <p>한눈에 보기 화면을 불러오는 중입니다.</p>;
 
   return (
-    <section>
-      <div className="page-title">
+    <section className="dashboard-page">
+      <div className="page-title dashboard-title">
         <div>
+          <p className="eyebrow">Today Workspace</p>
           <h1>한눈에 보기</h1>
-          <p>오늘 놓치면 안 되는 일정과 준비사항을 먼저 보여줍니다.</p>
+          <p>지원 일정, 오늘 할 일, 공부 계획을 한 화면에서 확인하세요.</p>
         </div>
         <Link className="button" to="/analyze/pdf">자료 분석하기</Link>
       </div>
 
-      <div className="summary-grid">
+      <div className="summary-grid dashboard-summary">
         <div className="metric"><span>진행 중 지원</span><strong>{dashboard.activeCount}</strong></div>
-        <div className="metric"><span>이번 주 D-Day</span><strong>{dashboard.weekDeadlines.length}</strong></div>
+        <div className="metric"><span>7일 이내 일정</span><strong>{dashboard.weekDeadlines.length}</strong></div>
         <div className="metric"><span>오늘 할 일</span><strong>{dashboard.todayTasks.length}</strong></div>
-        <div className="metric"><span>3일 이내</span><strong>{dashboard.threeDayTasks.length}</strong></div>
+        <div className="metric"><span>3일 이내 할 일</span><strong>{dashboard.threeDayTasks.length}</strong></div>
       </div>
+
+      {dashboard.nearestEvent && (
+        <section className="panel highlight nearest-event">
+          <div>
+            <p className="eyebrow">Next Event</p>
+            <h2>가장 가까운 일정</h2>
+          </div>
+          <p>
+            <strong>{dashboard.nearestEvent.company}</strong>
+            <span>{dashboard.nearestEvent.type}</span>
+            <DdayBadge date={dashboard.nearestEvent.date} />
+          </p>
+        </section>
+      )}
 
       <div className="two-column dashboard-top-grid">
         <section className="panel calendar-panel">
           <div className="section-header compact">
-            <div><h2>전형 일정</h2><p className="muted">현재 전형 단계의 D-Day만 한눈에 확인하세요.</p></div>
+            <div>
+              <h2>전형 일정</h2>
+              <p className="muted">지원 마감, 필기시험, 면접일을 모두 표시합니다.</p>
+            </div>
             <div className="calendar-nav">
-              <button className="icon-button" aria-label="이전 달" onClick={() => shiftMonth(setCalendarMonth, -1)}>‹</button>
+              <button className="icon-button" aria-label="이전 달" onClick={() => shiftMonth(setCalendarMonth, -1)} type="button">‹</button>
               <strong>{calendarMonth.getFullYear()}년 {calendarMonth.getMonth() + 1}월</strong>
-              <button className="icon-button" aria-label="다음 달" onClick={() => shiftMonth(setCalendarMonth, 1)}>›</button>
+              <button className="icon-button" aria-label="다음 달" onClick={() => shiftMonth(setCalendarMonth, 1)} type="button">›</button>
             </div>
           </div>
-          <div className="calendar-grid calendar-weekdays">{calendarWeekdays.map((day) => <strong key={day}>{day}</strong>)}</div>
+          <div className="calendar-grid calendar-weekdays">
+            {calendarWeekdays.map((day) => <strong key={day}>{day}</strong>)}
+          </div>
           <div className="calendar-grid">
             {calendarDays.map((day) => (
               <div className={`calendar-day ${day.inMonth ? "" : "outside"}`} key={day.key}>
                 <span className="calendar-date">{day.date.getDate()}</span>
-                {(eventsByDate.get(day.key) || []).map((event) => <Link className={`calendar-event ${event.type === "필기시험" ? "written" : event.type === "면접" ? "interview" : "deadline"}`} to={`/applications/${event.applicationId}`} key={`${event.applicationId}-${event.type}`} title={`${event.company} · ${event.type}`}><b>{event.type}</b><span>{event.company}</span></Link>)}
+                {(eventsByDate.get(day.key) || []).map((event) => (
+                  <Link
+                    className={`calendar-event ${getCalendarEventClass(event.type)}`}
+                    key={`${event.applicationId}-${event.type}`}
+                    title={`${event.company} · ${event.type}`}
+                    to={`/applications/${event.applicationId}`}
+                  >
+                    <b>{event.type}</b>
+                    <span>{event.company}</span>
+                  </Link>
+                ))}
               </div>
             ))}
           </div>
-          <div className="calendar-legend"><span><i className="legend-dot deadline" />마감</span><span><i className="legend-dot written" />필기</span><span><i className="legend-dot interview" />면접</span></div>
+          <div className="calendar-legend">
+            <span><i className="legend-dot deadline" />마감</span>
+            <span><i className="legend-dot written" />필기</span>
+            <span><i className="legend-dot interview" />면접</span>
+          </div>
         </section>
+
         <section className="panel">
-          <div className="section-header compact"><div><h2>오늘의 공부계획</h2><p className="muted">오늘 날짜에 배정된 공부 항목만 보여줍니다.</p></div><Link className="button secondary" to={dashboard.studyPlanApplicationId ? `/applications/${dashboard.studyPlanApplicationId}/study-plan` : "/applications"}>공부계획 보기</Link></div>
+          <div className="section-header compact">
+            <div>
+              <h2>오늘의 공부 계획</h2>
+              <p className="muted">오늘 날짜에 배정된 공부 항목입니다.</p>
+            </div>
+            <Link className="button secondary" to={dashboard.studyPlanApplicationId ? `/applications/${dashboard.studyPlanApplicationId}/study-plan` : "/study-plans"}>공부계획 보기</Link>
+          </div>
           <StudyChecklist items={dashboard.studyChecklist || []} onToggle={toggleStudyBlock} />
         </section>
       </div>
 
-      {dashboard.nearestEvent && (
-        <div className="panel highlight">
-          <h2>가장 가까운 전형 D-Day</h2>
-          <p>{dashboard.nearestEvent.company} · {dashboard.nearestEvent.type} <DdayBadge date={dashboard.nearestEvent.date} /></p>
-        </div>
-      )}
-
       <div className="two-column">
-        <div className="panel">
+        <section className="panel">
           <h2>오늘 해야 할 일</h2>
           <SimpleTaskList tasks={dashboard.todayTasks} onToggle={toggleTask} />
-        </div>
-        <div className="panel">
-          <h2>미완료 긴급 항목</h2>
+        </section>
+        <section className="panel">
+          <h2>긴급 체크리스트</h2>
           <SimpleTaskList tasks={dashboard.urgentTasks} onToggle={toggleTask} />
-        </div>
+        </section>
       </div>
 
-      <h2>지원 공고별 현재 전형 단계</h2>
       <section className="panel checklist-overview">
         <div className="section-header compact">
           <div>
             <h2>공고별 체크리스트</h2>
-            <p className="muted">등록한 모든 지원 공고의 체크리스트를 한곳에서 확인합니다.</p>
+            <p className="muted">등록된 지원 공고의 체크리스트를 한 곳에서 확인합니다.</p>
           </div>
         </div>
         <div className="checklist-groups">
@@ -164,7 +197,12 @@ function Dashboard() {
         </div>
       </section>
 
-      <h2>지원 공고별 현재 전형 단계</h2>
+      <div className="section-header dashboard-section-title">
+        <div>
+          <h2>지원 공고별 일정</h2>
+          <p className="muted">입력된 지원마감, 필기시험, 면접일을 공고별로 확인합니다.</p>
+        </div>
+      </div>
       <div className="card-grid">
         {dashboard.stages.map((item) => (
           <ApplicationCard key={item.id} application={item} />
@@ -213,6 +251,12 @@ function formatLocalDate(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
+function getCalendarEventClass(type) {
+  if (type === "필기시험") return "written";
+  if (type === "면접") return "interview";
+  return "deadline";
+}
+
 function shiftMonth(setMonth, amount) {
   setMonth((month) => new Date(month.getFullYear(), month.getMonth() + amount, 1));
 }
@@ -225,7 +269,11 @@ function StudyChecklist({ items, onToggle }) {
         <li key={item.id}>
           <label className="task-summary-item">
             <input type="checkbox" onChange={() => onToggle(item)} />
-            <span><strong>{item.company || item.examName || "개인 시험"}</strong><small>{item.subject || "기타"}{item.materialName ? ` · ${item.materialName}` : ""}</small><small>{item.studyMethod || item.method || "공부"}{item.studyRange ? ` · ${item.studyRange}` : ""}{item.hours ? ` · ${item.hours}시간` : ""}</small></span>
+            <span>
+              <strong>{item.company || item.examName || "개인 시험"}</strong>
+              <small>{item.subject || "기타"}{item.materialName ? ` · ${item.materialName}` : ""}</small>
+              <small>{item.studyMethod || item.method || "공부"}{item.studyRange ? ` · ${item.studyRange}` : ""}{item.hours ? ` · ${item.hours}시간` : ""}</small>
+            </span>
           </label>
           <time>{formatShortDate(item.date)}</time>
         </li>

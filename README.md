@@ -1,95 +1,125 @@
-# NextStep - 취업 전형 비서
+# NextStep - 취업 전형 관리 비서
 
-NextStep은 채용공고 PDF, 채용 화면 캡처, 전형 안내 이미지, 이메일/문자 안내 캡처를 업로드하면 일정, 제출서류, 회신 업무, 필기 과목, 공부계획을 정리해주는 취업 전형 관리 웹서비스입니다.
+NextStep은 취업 준비 과정에서 여러 회사의 지원 공고, 지원 마감일, 필기시험일, 면접일, 제출 서류, 체크리스트, 공부 계획을 한 곳에서 관리하는 웹 애플리케이션입니다.
 
-현재 OCR과 AI 분석은 실제로 동작하지 않고 mock 결과를 반환합니다. 대신 파일 업로드, 미리보기, 자료 유형 선택, 분석 결과 수정, 필요한 항목 선택, 저장까지의 서비스 흐름은 실제로 조작할 수 있게 구현했습니다.
+채용 공고 PDF나 이미지 자료를 업로드해 분석 결과를 확인하고, 필요한 항목만 선택해 지원 공고와 체크리스트로 저장할 수 있습니다. 현재 OCR/AI 분석은 mock 결과를 반환하지만, 업로드부터 결과 수정, 저장까지의 화면 흐름은 실제로 동작합니다.
 
-## 해결하려는 문제
+## 최근 추가 및 수정 기능
 
-취업준비생은 여러 회사의 지원 마감, 서류 제출, 필기시험, 면접 안내, 참석 회신을 동시에 관리해야 합니다. NextStep은 자료를 업로드한 뒤 시스템이 먼저 정리안을 제안하고, 사용자가 직접 확인/수정/선택한 내용만 실제 데이터로 반영하는 구조입니다.
+### 인증
 
-핵심 흐름:
+- 이메일/비밀번호 기반 회원가입 및 로그인
+- Google OAuth 로그인
+- Google 로그인 시 계정 선택 화면이 뜨도록 `prompt=select_account` 적용
+- 로그아웃 기능
+- 비밀번호 재설정 기능
+  - 로그인 화면에서 `비밀번호를 잊으셨나요?` 클릭
+  - 이메일, 새 비밀번호, 비밀번호 확인 입력 후 변경
+  - 현재는 개발용 방식이며 이메일 인증 링크 방식은 아직 미구현
+
+### 계정별 데이터 분리
+
+- 로그인한 사용자별로 데이터가 분리되도록 수정
+- 다음 데이터에 `user_id`를 추가하고 조회/생성/수정/삭제를 사용자 기준으로 제한
+  - 지원 공고
+  - 체크리스트
+  - 공부 계획
+  - 자격증/시험 정보
+- 대시보드도 로그인한 사용자의 데이터만 집계
+- 기존에 이미 저장되어 있던 데이터는 소유자를 구분할 수 없어 첫 번째 기존 사용자에게 귀속
+
+### 대시보드 개선
+
+- `한눈에 보기` 화면 문구 정리
+- 지원 마감일만 보이던 문제 수정
+- 입력된 모든 주요 일정 표시
+  - 지원 마감
+  - 필기시험
+  - 면접
+  - 회신 마감
+- 캘린더에 전체 전형 일정 표시
+- 가장 가까운 D-Day를 전체 일정 기준으로 계산
+- 공고 카드에서 입력된 일정들을 함께 표시
+- 로그인 화면은 이미지 기반의 감성적인 첫 화면으로 개선
+- 로그인 후 대시보드는 업무 도구처럼 정보 밀도를 유지하도록 정리
+
+### 실행 및 환경 설정
+
+- Supabase DB 연결을 위한 `DATABASE_URL` 사용
+- Supabase Auth 연동을 위한 환경변수 사용
+  - `VITE_SUPABASE_URL`
+  - `VITE_SUPABASE_ANON_KEY`
+  - `SUPABASE_URL`
+  - `SUPABASE_ANON_KEY`
+- 로컬 개발 Redirect URL 예시
 
 ```text
-사용자 입력
-→ 시스템 mock 분석
-→ 사용자 확인 및 수정
-→ 필요한 할 일 선택
-→ 데이터 저장
-→ Dashboard와 상세 화면 재계산
-→ 다음 행동 확인
+http://localhost:4173/auth/callback
+http://127.0.0.1:4173/auth/callback
+http://localhost:5173/auth/callback
+http://127.0.0.1:5173/auth/callback
+http://localhost:4000/auth/callback
 ```
 
-## 이 앱은 논리적으로 실행 가능한가?
+## 주요 화면
 
-네. 현재 버전은 실제 OCR/AI만 mock이고, 나머지 흐름은 실행 가능한 구조입니다.
+- `Dashboard`: 한눈에 보기, 전형 일정 캘린더, 오늘 할 일, 긴급 체크리스트, 오늘의 공부 계획
+- `지원 공고`: 등록된 지원 공고 목록
+- `공고 등록`: 지원 회사, 직무, 마감일, 필기시험일, 면접일, 회신 마감 등 직접 입력
+- `지원 상세`: 공고 상세 정보, 전형 단계, 체크리스트, 공부 계획 확인
+- `자료 분석`: PDF/이미지 자료 업로드, mock 분석 결과 확인 및 저장
+- `공부 계획`: 필기시험일, 공부 가능 시간, 과목 중요도 기반 공부 일정 생성
+- `자격증`: 자격증이나 시험 정보를 별도로 관리
+- `로그인`: 이메일 로그인, Google 로그인, 회원가입, 비밀번호 재설정
 
-사용자가 `자료 분석` 화면에서 파일을 선택하면 서버에 바로 저장하지 않습니다. 사용자가 `분석하기` 버튼을 눌렀을 때만 `POST /api/analyze/file`로 전송됩니다. 백엔드는 파일 형식과 자료 유형을 보고 mock 분석 결과와 제안 할 일을 반환합니다. 프론트엔드는 이 결과를 입력 폼으로 보여주고, 사용자가 수정하거나 제안 할 일을 선택할 수 있게 합니다. 사용자가 `이대로 등록`을 눌러야 `POST /api/applications`와 `POST /api/applications/:id/tasks`가 호출되어 실제 JSON 저장소에 반영됩니다.
+## 주요 기능 흐름
 
-지원 상세 화면에서는 전형 단계를 바꿀 수 있습니다. 단계가 바뀌면 `PUT /api/applications/:id`로 현재 단계가 저장되고, 이어서 `POST /api/applications/:id/stage-checklist`가 호출되어 해당 단계의 기본 체크리스트가 생성됩니다. 체크리스트 완료/수정/삭제는 각각 API를 호출하고, 화면은 다시 데이터를 불러와 진행률과 D-Day를 재계산합니다.
-
-Dashboard는 별도 데이터를 손으로 들고 있지 않습니다. `GET /api/dashboard`가 지원 공고와 체크리스트를 다시 읽어 오늘 할 일, 3일 이내 할 일, 긴급 업무, 가까운 시험/면접을 계산합니다. 따라서 상세 화면에서 체크리스트나 전형 단계를 바꾸면 Dashboard 내용도 다음 조회 시 바뀝니다.
-
-## 화면 구성
-
-- `Dashboard`: 진행 중 지원 수, 오늘 할 일, 3일 이내 할 일, 긴급 항목, 가까운 시험/면접 표시
-- `지원 공고`: 샘플 포함 지원 공고 목록
-- `공고 등록`: 수동으로 지원 공고 생성
-- `지원 상세`: 일정, 제출서류, 과목, 체크리스트, 진행률, 전형 단계 변경
-- `자료 분석`: PDF와 이미지 공통 업로드/분석/수정/선택/저장 화면
-- `공부계획`: 필기시험일, 공부 시간, 가능 요일, 제외 날짜, 과목 중요도 기반 계획 생성
-
-`전형 안내 분석`은 `자료 분석`과 기능이 같아서 별도 메뉴에서 제거했습니다. 면접 안내, 이메일 캡처, 문자 안내도 `자료 분석` 화면에서 자료 종류를 `면접 안내` 또는 `이메일 또는 문자 안내`로 선택해서 처리합니다.
-
-## 주요 기능 연결
-
-### 1. 자료 분석에서 신규 공고 등록
+### 1. 자료 분석에서 공고 등록
 
 ```text
 파일 선택 또는 드래그 앤 드롭
-→ 자료 종류 선택
-→ 분석하기
-→ mock 분석 결과 표시
-→ 기업명/날짜/과목/서류 수정
-→ 제안 할 일 선택
-→ 이대로 등록
-→ 지원 공고와 선택한 체크리스트 저장
-→ 상세 페이지 이동
+-> 자료 종류 선택
+-> 분석하기
+-> mock 분석 결과 표시
+-> 회사명/일정/과목/서류 수정
+-> 필요한 항목 선택
+-> 그대로 등록
+-> 지원 공고와 체크리스트 저장
 ```
 
 관련 파일:
 
+- `frontend/src/pages/PdfAnalyze.jsx`
 - `frontend/src/components/FileUpload.jsx`
 - `frontend/src/components/AnalysisResultEditor.jsx`
-- `frontend/src/pages/PdfAnalyze.jsx`
 - `backend/routes/analysisRoutes.js`
 - `backend/services/analysisService.js`
 
-### 2. 전형 단계 변경
+### 2. 지원 공고와 전형 일정 관리
 
 ```text
-지원 상세 페이지
-→ 현재 전형 단계 선택 변경
-→ 지원 공고 stage 저장
-→ 단계별 기본 체크리스트 생성
-→ 상세 화면 다시 조회
-→ 진행률과 D-Day 재계산
+공고 등록
+-> 지원 마감일, 필기시험일, 면접일 입력
+-> 한눈에 보기 캘린더에 일정 표시
+-> 가장 가까운 일정 D-Day 계산
+-> 상세 화면에서 전형 단계와 체크리스트 관리
 ```
 
 관련 파일:
 
+- `frontend/src/pages/ApplicationForm.jsx`
 - `frontend/src/pages/ApplicationDetail.jsx`
+- `frontend/src/components/ApplicationDdayList.jsx`
 - `backend/controllers/applicationController.js`
-- `backend/services/checklistService.js`
+- `backend/repositories/applicationRepository.js`
 
-### 3. 체크리스트 조작
+### 3. 체크리스트 관리
 
 ```text
-체크박스 완료/취소 또는 항목 수정/삭제
-→ task API 호출
-→ 상세 데이터 다시 조회
-→ 준비 진행률 재계산
-→ Dashboard 조회 시 오늘 할 일과 긴급 항목 재계산
+전형 단계 변경
+-> 단계별 기본 체크리스트 생성
+-> 항목 완료/수정/삭제
+-> 대시보드 오늘 할 일과 긴급 항목에 반영
 ```
 
 관련 파일:
@@ -98,50 +128,36 @@ Dashboard는 별도 데이터를 손으로 들고 있지 않습니다. `GET /api
 - `frontend/src/hooks/useTasks.js`
 - `backend/controllers/taskController.js`
 - `backend/repositories/taskRepository.js`
+- `backend/services/checklistService.js`
 
-### 4. D-Day 계산
+### 4. 공부 계획 생성
 
 ```text
-지원 마감일/필기시험일/면접일/회신 마감일
-→ 날짜 유틸 계산
-→ D-3 이내 주의, D-1/오늘 긴급, 지난 날짜 마감초과 표시
+필기시험일 선택
+-> 평일/주말 공부 시간 입력
+-> 공부 가능한 요일 선택
+-> 제외 날짜 선택
+-> 과목별 중요도 입력
+-> 공부 계획 생성
+-> 오늘의 공부 계획에 반영
 ```
 
 관련 파일:
 
-- `frontend/src/components/DdayBadge.jsx`
-- `frontend/src/hooks/useDday.js`
-- `frontend/src/utils/dateUtils.js`
-- `backend/utils/dateUtils.js`
-
-### 5. 공부계획 생성
-
-```text
-필기시험일 입력
-→ 평일/주말 공부 시간 입력
-→ 공부 가능한 요일 선택
-→ 제외 날짜 선택
-→ 과목별 중요도 입력
-→ 공부계획 만들기
-→ 일별 공부 블록 생성
-→ 개별 공부 일정 완료 처리
-```
-
-관련 파일:
-
-- `frontend/src/pages/StudyPlanPage.jsx`
+- `frontend/src/pages/StudyPlanWizard.jsx`
+- `frontend/src/pages/StudyPlanDetail.jsx`
 - `backend/controllers/studyPlanController.js`
 - `backend/services/studyPlanService.js`
 - `backend/repositories/studyPlanRepository.js`
 
 ## 기술 스택
 
-- Frontend: React, React Router, Context API, fetch, CSS
+- Frontend: React 18, React Router 6, Vite, Context API, CSS
 - Backend: Node.js, Express
-- Database: JSON 파일 기반 저장소
-- API: REST API
+- Database: Supabase PostgreSQL
+- Auth: 자체 이메일 로그인, Supabase Google OAuth
 - File upload: multer
-- AI/OCR: 현재 mock, 추후 실제 API 교체 가능
+- AI/OCR: 현재 mock, 추후 실제 API 연동 가능
 
 ## 프로젝트 구조
 
@@ -152,12 +168,13 @@ project-root/
   backend/
     app.js
     server.js
-    data/db.json
-    routes/
+    config/
     controllers/
-    services/
-    repositories/
+    db/
     middleware/
+    repositories/
+    routes/
+    services/
     utils/
   frontend/
     index.html
@@ -167,126 +184,137 @@ project-root/
       main.jsx
       styles.css
       components/
-      pages/
       context/
       hooks/
+      pages/
       services/
       utils/
 ```
 
 ## 실행 방법
 
-루트에서 설치:
+처음 설치:
 
 ```bash
 npm run install:all
 ```
 
-루트에서 실행:
+전체 실행:
 
 ```bash
-npm run dev
+npm start
 ```
 
-PowerShell 실행 정책 오류가 나면:
+PowerShell에서 `npm.ps1` 실행 정책 오류가 나면:
 
 ```bash
-npm.cmd run dev
+npm.cmd start
 ```
 
-브라우저 주소:
+프론트엔드 개발 서버:
+
+```bash
+cd frontend
+npm.cmd run dev:hot
+```
+
+프론트엔드 빌드:
+
+```bash
+cd frontend
+npm.cmd run build
+```
+
+기본 접속 주소:
 
 ```text
-http://localhost:4000
+http://localhost:4173
 ```
 
-백엔드가 `frontend/dist`를 같이 제공하므로 `4000` 하나만 열면 화면과 API가 함께 동작합니다. 프론트 preview 서버가 별도 포트로 뜰 수도 있지만, 일반 확인은 `http://localhost:4000`을 권장합니다.
+백엔드 API:
+
+```text
+http://localhost:4000/api
+```
+
+상태 확인:
+
+```text
+GET http://localhost:4000/api/health
+```
 
 ## REST API 목록
 
-- `GET /api/health`
+### 인증
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/reset-password`
+- `GET /api/auth/me`
+- `POST /api/auth/logout`
+
+### 대시보드
+
 - `GET /api/dashboard`
+
+### 지원 공고
+
 - `GET /api/applications`
 - `GET /api/applications/:id`
 - `POST /api/applications`
 - `PUT /api/applications/:id`
 - `DELETE /api/applications/:id`
 - `POST /api/applications/:id/stage-checklist`
+
+### 체크리스트
+
 - `GET /api/applications/:id/tasks`
 - `POST /api/applications/:id/tasks`
 - `PATCH /api/tasks/:id`
 - `DELETE /api/tasks/:id`
+- `PATCH /api/study-tasks/:id`
+- `DELETE /api/study-tasks/:id`
+
+### 자료 분석
+
 - `POST /api/analyze/file`
+
+### 공부 계획
+
+- `GET /api/study-plans`
+- `POST /api/study-plans/personal`
+- `GET /api/study-plans/:id`
+- `PATCH /api/study-plans/:id`
+- `POST /api/study-plans/:id/rebalance`
+- `DELETE /api/study-plans/:id`
 - `GET /api/applications/:id/study-plan`
 - `POST /api/applications/:id/study-plan`
 - `PATCH /api/applications/:id/study-plan`
 - `DELETE /api/applications/:id/study-plan`
 
-예전 호환용으로 `POST /api/analyze/job-posting`, `POST /api/analyze/interview-notice`도 남아 있지만, 화면에서는 통합 API인 `POST /api/analyze/file`만 사용합니다.
+### 자격증
 
-## 현재 mock인 기능
+- `GET /api/credentials`
+- `POST /api/credentials`
+- `PATCH /api/credentials/:id`
+- `DELETE /api/credentials/:id`
 
-- PDF 텍스트 추출
+## 현재 mock 또는 미구현 기능
+
+- 실제 PDF 텍스트 추출
 - 이미지 OCR
-- 이메일/문자 실제 분석
 - LLM API 분석
 - Gmail 연동
 - Google Calendar 연동
-- 이메일 자동 회신
-- 실제 알림 발송
-
-## 실제 OCR/AI를 붙일 위치
-
-- 업로드 처리: `backend/middleware/upload.js`
-- 통합 파일 분석: `backend/services/analysisService.js`의 `analyzeFileMock`
-- PDF 분석 교체: `analyzeJobPostingMock`
-- 이미지/면접 안내 분석 교체: `analyzeInterviewNoticeMock`
-- 필기시험 안내 분석 교체: `analyzeWrittenTestMock`
-
-실제 구현 시에는 다음 순서로 교체하면 됩니다.
-
-```text
-파일 업로드
-→ PDF 텍스트 추출 또는 OCR
-→ 추출 텍스트를 LLM에 전달
-→ JSON 구조로 변환
-→ 기존 AnalysisResultEditor에 표시
-→ 사용자가 수정/확정
-```
-
-## React에서 배울 수 있는 개념
-
-- `useState`: 파일 선택, 분석 결과, 폼 입력값, 체크리스트 수정 상태 관리
-- `useEffect`: 화면 진입 시 API 데이터 조회
-- Context API: 여러 화면에서 지원 공고 목록 공유
-- custom hook: `useApplications`, `useTasks`, `useDday`
-- `fetch`: REST API 호출
-- React Router: Dashboard, 목록, 상세, 분석, 공부계획 화면 이동
-
-## 초보자가 먼저 읽을 파일 순서
-
-1. `README.md`
-2. `backend/app.js`
-3. `backend/routes/applicationRoutes.js`
-4. `backend/controllers/applicationController.js`
-5. `backend/repositories/jsonRepository.js`
-6. `backend/services/analysisService.js`
-7. `frontend/src/main.jsx`
-8. `frontend/src/App.jsx`
-9. `frontend/src/context/ApplicationContext.jsx`
-10. `frontend/src/services/api.js`
-11. `frontend/src/components/FileUpload.jsx`
-12. `frontend/src/pages/PdfAnalyze.jsx`
-13. `frontend/src/pages/ApplicationDetail.jsx`
-14. `frontend/src/pages/StudyPlanPage.jsx`
-
-## 향후 추가 기능
-
-- 실제 PDF 텍스트 추출
-- OCR
-- LLM API 연결
-- Gmail 연동
-- Google Calendar 연동
 - 이메일 자동 회신 초안 생성
-- 브라우저 알림
-- 실제 알림 발송
+- 이메일 기반 비밀번호 재설정 링크 발송
+- 브라우저/모바일 푸시 알림
+
+## 추후 개선 후보
+
+- 실제 OCR/LLM 분석 연결
+- Supabase 이메일 인증과 비밀번호 재설정 메일 연동
+- Google Calendar 일정 내보내기
+- 지원 일정 알림
+- 사용자별 데이터 백업/내보내기
+- 배포 도메인 기준 OAuth Redirect URL 정리

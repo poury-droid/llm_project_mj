@@ -1483,3 +1483,147 @@ input:focus, select:focus, textarea:focus { outline: 2px solid rgba(23, 38, 61, 
     justify-content: stretch;
   }
 }
+
+/* Polished login + practical dashboard refinement */
+.login-page {
+  background: #f6f1ea;
+}
+
+.login-hero {
+  background:
+    linear-gradient(90deg, rgba(25, 21, 19, 0.74), rgba(25, 21, 19, 0.38)),
+    url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=80");
+  background-position: center;
+}
+
+.login-copy {
+  max-width: 680px;
+}
+
+.login-copy h1 {
+  max-width: 680px;
+  font-size: clamp(42px, 6vw, 82px);
+  font-weight: 500;
+  line-height: 0.98;
+}
+
+.login-copy p {
+  color: #f3dccd;
+}
+
+.login-stats {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.login-stats div {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.login-panel {
+  background: #fffdf9;
+}
+
+.login-panel h2 {
+  font-size: clamp(30px, 4vw, 44px);
+}
+
+.google-button {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.dashboard-page {
+  display: grid;
+  gap: 20px;
+}
+
+.dashboard-title {
+  min-height: 150px;
+  margin-bottom: 10px;
+}
+
+.dashboard-title h1 {
+  font-size: clamp(34px, 4vw, 58px);
+}
+
+.dashboard-summary {
+  margin-bottom: 2px;
+}
+
+.dashboard-summary .metric {
+  min-height: 108px;
+}
+
+.nearest-event {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 0;
+}
+
+.nearest-event p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0;
+}
+
+.nearest-event p > span {
+  color: var(--muted);
+}
+
+.calendar-panel {
+  overflow: hidden;
+}
+
+.calendar-grid {
+  gap: 6px;
+}
+
+.calendar-day {
+  min-height: 96px;
+  padding: 7px;
+}
+
+.calendar-event {
+  min-height: 30px;
+  padding: 4px 5px;
+}
+
+.dashboard-section-title {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--soft-line);
+}
+
+.card-grid .app-card {
+  align-content: start;
+}
+
+.app-card h3 {
+  margin-bottom: 4px;
+  font-size: 20px;
+}
+
+.dday-row {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.dday-row > span:not(.badge) {
+  grid-column: auto;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .nearest-event {
+    grid-template-columns: 1fr;
+  }
+
+  .nearest-event p {
+    justify-content: flex-start;
+  }
+}
