@@ -28,11 +28,21 @@ const allowedOrigins = (process.env.FRONTEND_ORIGIN || "http://localhost:5173,ht
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
+if (process.env.VERCEL_URL) allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
 const localDevOriginPattern = /^https?:\/\/(localhost|127\.0\.0\.1):\d+$/;
+
+function isAllowedOrigin(origin) {
+  return allowedOrigins.some((allowedOrigin) => {
+    if (allowedOrigin === origin) return true;
+    if (!allowedOrigin.includes("*")) return false;
+    const pattern = new RegExp(`^${allowedOrigin.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*")}$`);
+    return pattern.test(origin);
+  });
+}
 
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
+    if (!origin || isAllowedOrigin(origin)) return callback(null, true);
     if (process.env.NODE_ENV !== "production" && localDevOriginPattern.test(origin)) return callback(null, true);
     return callback(new Error("CORS origin is not allowed"));
   },

@@ -2,6 +2,7 @@ function getApiBaseUrl() {
   if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
   const host = window.location.hostname;
   const protocol = window.location.protocol;
+  if (!["localhost", "127.0.0.1"].includes(host)) return "/api";
   return `${protocol}//${host}:4000/api`;
 }
 
