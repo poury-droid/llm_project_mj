@@ -16,33 +16,35 @@ function summarizePlan(plan, application = null) {
 
 export async function listStudyPlans(req, res) {
   const [plans, applications] = await Promise.all([
-    studyRepo.findAllStudyPlans(),
-    applicationRepo.findAllApplications()
+    studyRepo.findAllStudyPlans(req.user.id),
+    applicationRepo.findAllApplications(req.user.id)
   ]);
   const applicationById = new Map(applications.map((application) => [application.id, application]));
   res.json(plans.map((plan) => summarizePlan(plan, applicationById.get(plan.applicationId))));
 }
 
 export async function getStudyPlanById(req, res) {
-  const plan = await studyRepo.findStudyPlanById(req.params.id);
+  const plan = await studyRepo.findStudyPlanById(req.user.id, req.params.id);
   if (!plan) return res.status(404).json({ message: "공부계획을 찾을 수 없습니다." });
-  const application = plan.applicationId ? await applicationRepo.findApplicationById(plan.applicationId) : null;
+  const application = plan.applicationId ? await applicationRepo.findApplicationById(req.user.id, plan.applicationId) : null;
   res.json(summarizePlan(plan, application));
 }
 
 export async function createPersonalStudyPlan(req, res) {
   const plan = generateStudyPlan({ ...req.body, type: "personalExam", applicationId: null });
-  const saved = await studyRepo.upsertStudyPlan(plan);
+  const saved = await studyRepo.upsertStudyPlan(req.user.id, plan);
   res.status(201).json(saved);
 }
 
 export async function getStudyPlan(req, res) {
-  const plan = await studyRepo.findStudyPlanByApplicationId(req.params.id);
+  const application = await applicationRepo.findApplicationById(req.user.id, req.params.id);
+  if (!application) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
+  const plan = await studyRepo.findStudyPlanByApplicationId(req.user.id, req.params.id);
   res.json(plan);
 }
 
 export async function createStudyPlan(req, res) {
-  const application = await applicationRepo.findApplicationById(req.params.id);
+  const application = await applicationRepo.findApplicationById(req.user.id, req.params.id);
   if (!application) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
   const examDate = application.stage === "필기전형" && application.writtenTestDate
     ? application.writtenTestDate.slice(0, 10)
@@ -54,24 +56,25 @@ export async function createStudyPlan(req, res) {
     examName: req.body.examName || `${application.company} 필기시험`,
     examDate
   });
-  const saved = await studyRepo.upsertApplicationStudyPlan(req.params.id, plan);
+  const saved = await studyRepo.upsertApplicationStudyPlan(req.user.id, req.params.id, plan);
   res.status(201).json(saved);
 }
 
 export async function deleteStudyPlan(req, res) {
-  await studyRepo.deleteStudyPlan(req.params.id);
+  const deleted = await studyRepo.deleteStudyPlan(req.user.id, req.params.id);
+  if (!deleted) return res.status(404).json({ message: "공부계획을 찾을 수 없습니다." });
   res.status(204).send();
 }
 
 export async function updateStudyPlan(req, res) {
   const nextPlan = req.body.days ? { ...req.body, progress: calculateProgress(req.body) } : req.body;
-  const updated = await studyRepo.updateStudyPlan(req.params.id, nextPlan);
+  const updated = await studyRepo.updateStudyPlan(req.user.id, req.params.id, nextPlan);
   if (!updated) return res.status(404).json({ message: "공부계획을 찾을 수 없습니다." });
   res.json(updated);
 }
 
 export async function rebalanceStudyPlan(req, res) {
-  const plan = await studyRepo.findStudyPlanById(req.params.id) || await studyRepo.findStudyPlanByApplicationId(req.params.id);
+  const plan = await studyRepo.findStudyPlanById(req.user.id, req.params.id) || await studyRepo.findStudyPlanByApplicationId(req.user.id, req.params.id);
   if (!plan) return res.status(404).json({ message: "공부계획을 찾을 수 없습니다." });
   const nextPlan = {
     ...plan,
@@ -79,9 +82,9 @@ export async function rebalanceStudyPlan(req, res) {
     weekendHours: Number(req.body?.weekendHours ?? plan.weekendHours)
   };
   if ([nextPlan.weekdayHours, nextPlan.weekendHours].some((hours) => !Number.isInteger(hours) || hours < 0 || hours > 24)) {
-    return res.status(400).json({ message: "평일·주말 공부시간은 0~24 사이의 정수로 입력해주세요." });
+    return res.status(400).json({ message: "평일/주말 공부시간은 0~24 사이의 정수로 입력해 주세요." });
   }
   const rebalanced = rebalanceIncompletePlan(nextPlan, req.body?.scheduleOptions || plan.scheduleOptions);
-  const saved = await studyRepo.updateStudyPlan(plan.id, rebalanced);
+  const saved = await studyRepo.updateStudyPlan(req.user.id, plan.id, rebalanced);
   res.json(saved);
 }

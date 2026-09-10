@@ -36,6 +36,14 @@ export async function createUser(email, passwordHash) {
   return result.rows[0];
 }
 
+export async function updatePassword(userId, passwordHash) {
+  const result = await query(
+    "UPDATE users SET password_hash = $1 WHERE id = $2 RETURNING id, email",
+    [passwordHash, userId]
+  );
+  return result.rows[0] || null;
+}
+
 export async function createSession(userId, remember) {
   const token = crypto.randomBytes(32).toString("base64url");
   const tokenHash = crypto.createHash("sha256").update(token).digest("hex");

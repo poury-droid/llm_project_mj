@@ -1,19 +1,18 @@
-// 지원 공고의 등록, 조회, 수정, 삭제와 단계별 체크리스트 생성을 담당합니다.
 import * as applicationRepo from "../repositories/applicationRepository.js";
 import * as taskRepo from "../repositories/taskRepository.js";
 import * as studyRepo from "../repositories/studyPlanRepository.js";
 import { buildStageChecklist } from "../services/checklistService.js";
 
 export async function getApplications(req, res) {
-  const applications = await applicationRepo.findAllApplications();
+  const applications = await applicationRepo.findAllApplications(req.user.id);
   res.json(applications);
 }
 
 export async function getApplication(req, res) {
-  const application = await applicationRepo.findApplicationById(req.params.id);
+  const application = await applicationRepo.findApplicationById(req.user.id, req.params.id);
   if (!application) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
-  const tasks = await taskRepo.findTasksByApplicationId(req.params.id);
-  const studyPlan = await studyRepo.findStudyPlanByApplicationId(req.params.id);
+  const tasks = await taskRepo.findTasksByApplicationId(req.user.id, req.params.id);
+  const studyPlan = await studyRepo.findStudyPlanByApplicationId(req.user.id, req.params.id);
   res.json({ ...application, tasks, studyPlan });
 }
 
@@ -37,14 +36,14 @@ export async function createApplication(req, res) {
     createdAt: now,
     updatedAt: now
   };
-  const saved = await applicationRepo.createApplication(application);
+  const saved = await applicationRepo.createApplication(req.user.id, application);
   res.status(201).json(saved);
 }
 
 export async function updateApplication(req, res) {
-  const existing = await applicationRepo.findApplicationById(req.params.id);
+  const existing = await applicationRepo.findApplicationById(req.user.id, req.params.id);
   if (!existing) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
-  const updated = await applicationRepo.updateApplication(req.params.id, {
+  const updated = await applicationRepo.updateApplication(req.user.id, req.params.id, {
     ...req.body,
     updatedAt: new Date().toISOString()
   });
@@ -52,33 +51,33 @@ export async function updateApplication(req, res) {
 }
 
 export async function deleteApplication(req, res) {
-  const deleted = await applicationRepo.deleteApplication(req.params.id);
+  const deleted = await applicationRepo.deleteApplication(req.user.id, req.params.id);
   if (!deleted) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
   res.status(204).send();
 }
 
 export async function addStageChecklist(req, res) {
-  const application = await applicationRepo.findApplicationById(req.params.id);
+  const application = await applicationRepo.findApplicationById(req.user.id, req.params.id);
   if (!application) return res.status(404).json({ message: "지원 공고를 찾을 수 없습니다." });
-  const existingTasks = await taskRepo.findTasksByApplicationId(req.params.id);
+  const existingTasks = await taskRepo.findTasksByApplicationId(req.user.id, req.params.id);
   const dueDate = getStageChecklistDueDate(application);
   for (const task of existingTasks) {
     if (task.category === application.stage && !task.completed && task.dueDate !== dueDate) {
-      await taskRepo.updateTask(task.id, { dueDate });
+      await taskRepo.updateTask(req.user.id, task.id, { dueDate });
     }
   }
   const tasks = buildStageChecklist(application.stage, application.id, existingTasks, dueDate);
   const saved = [];
-  for (const task of tasks) saved.push(await taskRepo.createTask(task));
+  for (const task of tasks) saved.push(await taskRepo.createTask(req.user.id, task));
   res.status(201).json(saved);
 }
 
 function getStageChecklistDueDate(application) {
   const dueDates = {
-    지원준비: application.deadline,
-    필기전형: application.writtenTestDate,
-    면접전형: application.interviewDate,
-    최종결과: application.replyDeadline
+    "지원준비": application.deadline,
+    "필기전형": application.writtenTestDate,
+    "면접전형": application.interviewDate,
+    "최종결과": application.replyDeadline
   };
   return dueDates[application.stage] || application.deadline || "";
 }

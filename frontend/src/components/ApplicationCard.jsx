@@ -12,7 +12,7 @@ function ApplicationCard({ application, currentDdayOnly = false }) {
       <div className="card-meta">
         <span>현재 단계: {application.stage}</span>
       </div>
-      <ApplicationDdayList application={application} currentOnly={currentDdayOnly} />
+      <ApplicationDdayList application={application} currentOnly={currentDdayOnly} hideEmpty={!currentDdayOnly} />
       <Link className="button secondary" to={`/applications/${application.id}`}>상세 보기</Link>
     </article>
   );

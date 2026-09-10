@@ -37,6 +37,19 @@ export async function login(req, res) {
   res.json({ user: { id: user.id, email: user.email } });
 }
 
+export async function resetPassword(req, res) {
+  const email = String(req.body.email || "").trim().toLowerCase();
+  const password = String(req.body.password || "");
+  if (!emailPattern.test(email)) return res.status(400).json({ message: "올바른 이메일을 입력해 주세요." });
+  if (password.length < 8) return res.status(400).json({ message: "비밀번호는 8자 이상이어야 합니다." });
+
+  const user = await authService.findUserByEmail(email);
+  if (!user) return res.status(404).json({ message: "등록된 이메일을 찾을 수 없습니다." });
+
+  await authService.updatePassword(user.id, await authService.hashPassword(password));
+  res.json({ ok: true });
+}
+
 export function me(req, res) {
   res.json({ user: { id: req.user.id, email: req.user.email } });
 }

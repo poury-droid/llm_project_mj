@@ -49,6 +49,7 @@ async function createSchema(query) {
   await query(`
     CREATE TABLE IF NOT EXISTS applications (
       id text PRIMARY KEY,
+      user_id text,
       company text NOT NULL,
       position text NOT NULL,
       title text NOT NULL,
@@ -72,6 +73,7 @@ async function createSchema(query) {
   await query(`
     CREATE TABLE IF NOT EXISTS tasks (
       id text PRIMARY KEY,
+      user_id text,
       application_id text NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
       title text NOT NULL,
       category text NOT NULL DEFAULT '',
@@ -86,6 +88,7 @@ async function createSchema(query) {
   await query(`
     CREATE TABLE IF NOT EXISTS study_plans (
       id text PRIMARY KEY,
+      user_id text,
       application_id text NOT NULL UNIQUE REFERENCES applications(id) ON DELETE CASCADE,
       exam_date text NOT NULL DEFAULT '',
       weekday_hours integer NOT NULL DEFAULT 0,
@@ -113,6 +116,7 @@ async function createSchema(query) {
   await query(`
     CREATE TABLE IF NOT EXISTS user_credentials (
       id text PRIMARY KEY,
+      user_id text,
       name text NOT NULL,
       grade text NOT NULL DEFAULT '',
       acquired_date text NOT NULL DEFAULT '',
@@ -126,6 +130,16 @@ async function createSchema(query) {
   `);
 
   // 자주 조회하는 컬럼에 인덱스를 만들어 목록/마감일 조회를 빠르게 합니다.
+  for (const table of ["applications", "tasks", "study_plans", "user_credentials"]) {
+    await query(`ALTER TABLE ${table} ADD COLUMN IF NOT EXISTS user_id text;`);
+    await query(`
+      UPDATE ${table}
+      SET user_id = COALESCE((SELECT id::text FROM users ORDER BY created_at ASC LIMIT 1), 'legacy')
+      WHERE user_id IS NULL;
+    `);
+    await query(`CREATE INDEX IF NOT EXISTS idx_${table}_user_id ON ${table}(user_id);`);
+  }
+
   await query("CREATE INDEX IF NOT EXISTS idx_tasks_application_id ON tasks(application_id);");
   await query("CREATE INDEX IF NOT EXISTS idx_tasks_due_date ON tasks(due_date);");
   await query("CREATE INDEX IF NOT EXISTS idx_applications_deadline ON applications(deadline);");

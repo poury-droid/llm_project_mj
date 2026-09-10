@@ -53,6 +53,10 @@ export async function signIn(email, password, remember = true) {
   return request("/login", { method: "POST", body: JSON.stringify({ email, password, remember }) });
 }
 
+export async function resetPassword(email, password) {
+  return request("/reset-password", { method: "POST", body: JSON.stringify({ email, password }) });
+}
+
 export async function getCurrentUser() {
   consumeOAuthCallback();
   const data = await request("/me");
@@ -76,6 +80,7 @@ export function signInWithGoogle() {
   authorizeUrl.searchParams.set("provider", "google");
   authorizeUrl.searchParams.set("redirect_to", redirectTo);
   authorizeUrl.searchParams.set("apikey", anonKey);
+  authorizeUrl.searchParams.set("prompt", "select_account");
   window.location.assign(authorizeUrl.toString());
 }
 

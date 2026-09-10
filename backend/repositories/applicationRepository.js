@@ -1,7 +1,5 @@
-// applications 테이블의 SQL을 담당하며 DB snake_case를 API camelCase로 변환합니다.
 import { query } from "../db/pool.js";
 
-// PostgreSQL의 snake_case 컬럼을 API의 camelCase 형식으로 변환합니다.
 function toApplication(row) {
   if (!row) return null;
   return {
@@ -41,30 +39,30 @@ const columnByField = {
   updatedAt: "updated_at"
 };
 
-export async function findAllApplications() {
-  // Repository는 DB 접근만 담당하고, HTTP 응답 형식은 Controller가 담당합니다.
-  const result = await query("SELECT * FROM applications ORDER BY created_at ASC");
+export async function findAllApplications(userId) {
+  const result = await query("SELECT * FROM applications WHERE user_id = $1 ORDER BY created_at ASC", [userId]);
   return result.rows.map(toApplication);
 }
 
-export async function findApplicationById(id) {
-  const result = await query("SELECT * FROM applications WHERE id = $1", [id]);
+export async function findApplicationById(userId, id) {
+  const result = await query("SELECT * FROM applications WHERE user_id = $1 AND id = $2", [userId, id]);
   return toApplication(result.rows[0]);
 }
 
-export async function createApplication(application) {
+export async function createApplication(userId, application) {
   const result = await query(
     `
       INSERT INTO applications (
-        id, company, position, title, deadline, stage, pdf_file_name, memo,
+        id, user_id, company, position, title, deadline, stage, pdf_file_name, memo,
         written_test_date, interview_date, reply_deadline, location,
         subjects, required_documents, created_at, updated_at
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13::jsonb, $14::jsonb, $15, $16)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14::jsonb, $15::jsonb, $16, $17)
       RETURNING *
     `,
     [
       application.id,
+      userId,
       application.company || "",
       application.position || "",
       application.title || "",
@@ -85,28 +83,27 @@ export async function createApplication(application) {
   return toApplication(result.rows[0]);
 }
 
-export async function updateApplication(id, updates) {
-  // 허용된 필드만 SQL에 포함해 임의의 컬럼명이 쿼리에 들어가지 않도록 합니다.
+export async function updateApplication(userId, id, updates) {
   const entries = Object.entries(updates).filter(([key]) => columnByField[key]);
-  if (entries.length === 0) return findApplicationById(id);
+  if (entries.length === 0) return findApplicationById(userId, id);
 
   const sets = entries.map(([key], index) => {
     const column = columnByField[key];
     const cast = ["subjects", "requiredDocuments"].includes(key) ? "::jsonb" : "";
-    return `${column} = $${index + 2}${cast}`;
+    return `${column} = $${index + 3}${cast}`;
   });
   const values = entries.map(([key, value]) =>
     ["subjects", "requiredDocuments"].includes(key) ? JSON.stringify(value || []) : value
   );
 
   const result = await query(
-    `UPDATE applications SET ${sets.join(", ")} WHERE id = $1 RETURNING *`,
-    [id, ...values]
+    `UPDATE applications SET ${sets.join(", ")} WHERE user_id = $1 AND id = $2 RETURNING *`,
+    [userId, id, ...values]
   );
   return toApplication(result.rows[0]);
 }
 
-export async function deleteApplication(id) {
-  const result = await query("DELETE FROM applications WHERE id = $1", [id]);
+export async function deleteApplication(userId, id) {
+  const result = await query("DELETE FROM applications WHERE user_id = $1 AND id = $2", [userId, id]);
   return result.rowCount > 0;
 }

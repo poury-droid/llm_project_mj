@@ -1,7 +1,5 @@
-// tasks 테이블에 대한 조회/생성/수정/삭제 SQL을 캡슐화합니다.
 import { query } from "../db/pool.js";
 
-// DB 컬럼명(application_id, due_date)을 프론트엔드 데이터 형식으로 바꿉니다.
 function toTask(row) {
   if (!row) return null;
   return {
@@ -25,28 +23,29 @@ const columnByField = {
   priority: "priority"
 };
 
-export async function findTasksByApplicationId(applicationId) {
+export async function findTasksByApplicationId(userId, applicationId) {
   const result = await query(
-    "SELECT * FROM tasks WHERE application_id = $1 ORDER BY created_at ASC",
-    [applicationId]
+    "SELECT * FROM tasks WHERE user_id = $1 AND application_id = $2 ORDER BY created_at ASC",
+    [userId, applicationId]
   );
   return result.rows.map(toTask);
 }
 
-export async function findAllTasks() {
-  const result = await query("SELECT * FROM tasks ORDER BY created_at ASC");
+export async function findAllTasks(userId) {
+  const result = await query("SELECT * FROM tasks WHERE user_id = $1 ORDER BY created_at ASC", [userId]);
   return result.rows.map(toTask);
 }
 
-export async function createTask(task) {
+export async function createTask(userId, task) {
   const result = await query(
     `
-      INSERT INTO tasks (id, application_id, title, category, due_date, completed, priority, created_at)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO tasks (id, user_id, application_id, title, category, due_date, completed, priority, created_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *
     `,
     [
       task.id,
+      userId,
       task.applicationId,
       task.title || "",
       task.category || "",
@@ -59,21 +58,23 @@ export async function createTask(task) {
   return toTask(result.rows[0]);
 }
 
-export async function updateTask(id, updates) {
-  // 수정 가능한 필드 목록을 제한하고, 값은 파라미터 바인딩으로 전달합니다.
+export async function updateTask(userId, id, updates) {
   const entries = Object.entries(updates).filter(([key]) => columnByField[key]);
   if (entries.length === 0) {
-    const result = await query("SELECT * FROM tasks WHERE id = $1", [id]);
+    const result = await query("SELECT * FROM tasks WHERE user_id = $1 AND id = $2", [userId, id]);
     return toTask(result.rows[0]);
   }
 
-  const sets = entries.map(([key], index) => `${columnByField[key]} = $${index + 2}`);
+  const sets = entries.map(([key], index) => `${columnByField[key]} = $${index + 3}`);
   const values = entries.map(([, value]) => value);
-  const result = await query(`UPDATE tasks SET ${sets.join(", ")} WHERE id = $1 RETURNING *`, [id, ...values]);
+  const result = await query(
+    `UPDATE tasks SET ${sets.join(", ")} WHERE user_id = $1 AND id = $2 RETURNING *`,
+    [userId, id, ...values]
+  );
   return toTask(result.rows[0]);
 }
 
-export async function deleteTask(id) {
-  const result = await query("DELETE FROM tasks WHERE id = $1", [id]);
+export async function deleteTask(userId, id) {
+  const result = await query("DELETE FROM tasks WHERE user_id = $1 AND id = $2", [userId, id]);
   return result.rowCount > 0;
 }

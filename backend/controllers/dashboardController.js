@@ -1,4 +1,3 @@
-// 공고, 할 일, 학습계획을 조합해 대시보드 전용 요약 데이터를 생성합니다.
 import { findAllApplications } from "../repositories/applicationRepository.js";
 import { findAllTasks } from "../repositories/taskRepository.js";
 import { findAllStudyPlans } from "../repositories/studyPlanRepository.js";
@@ -6,9 +5,9 @@ import { daysBetween } from "../utils/dateUtils.js";
 
 export async function getDashboard(req, res) {
   const today = new Date();
-  const applications = await findAllApplications();
-  const tasks = await findAllTasks();
-  const studyPlans = await findAllStudyPlans();
+  const applications = await findAllApplications(req.user.id);
+  const tasks = await findAllTasks(req.user.id);
+  const studyPlans = await findAllStudyPlans(req.user.id);
   const applicationById = new Map(applications.map((app) => [app.id, app]));
   const withApplicationInfo = (task) => {
     const application = applicationById.get(task.applicationId);
@@ -18,13 +17,12 @@ export async function getDashboard(req, res) {
     };
   };
   const active = applications.filter((app) => app.stage !== "최종결과");
-  const currentStageEvents = applications
-    .map(getCurrentStageEvent)
-    .filter(Boolean)
+  const calendarEvents = applications
+    .flatMap(getApplicationEvents)
     .map((event) => ({ ...event, daysLeft: daysBetween(today, event.date) }))
     .filter((event) => event.daysLeft !== null && event.daysLeft >= 0)
     .sort((a, b) => a.daysLeft - b.daysLeft);
-  const weekDeadlines = currentStageEvents.filter((event) => {
+  const weekDeadlines = calendarEvents.filter((event) => {
     const d = daysBetween(today, event.date);
     return d !== null && d >= 0 && d <= 7;
   });
@@ -73,8 +71,8 @@ export async function getDashboard(req, res) {
     checklists,
     studyChecklist,
     studyPlanApplicationId: studyPlans[0]?.applicationId || null,
-    calendarEvents: currentStageEvents,
-    nearestEvent: currentStageEvents[0] || null,
+    calendarEvents,
+    nearestEvent: calendarEvents[0] || null,
     stages: applications.map((app) => ({
       id: app.id,
       company: app.company,
@@ -89,21 +87,17 @@ export async function getDashboard(req, res) {
   });
 }
 
-function getCurrentStageEvent(app) {
-  const stageEvents = {
-    관심공고: { type: "지원 마감", date: app.deadline },
-    지원준비: { type: "지원 마감", date: app.deadline },
-    서류전형: { type: "지원 마감", date: app.deadline },
-    필기전형: { type: "필기시험", date: app.writtenTestDate },
-    면접전형: { type: "면접", date: app.interviewDate },
-    최종결과: { type: "최종 발표", date: app.replyDeadline }
-  };
-  const event = stageEvents[app.stage];
-  if (!event?.date) return null;
-  return {
-    applicationId: app.id,
-    company: app.company,
-    type: event.type,
-    date: event.date
-  };
+function getApplicationEvents(app) {
+  return [
+    { type: "지원 마감", date: app.deadline },
+    { type: "필기시험", date: app.writtenTestDate },
+    { type: "면접", date: app.interviewDate },
+    { type: "회신 마감", date: app.replyDeadline }
+  ]
+    .filter((event) => event.date)
+    .map((event) => ({
+      ...event,
+      applicationId: app.id,
+      company: app.company
+    }));
 }

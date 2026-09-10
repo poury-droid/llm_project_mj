@@ -36,18 +36,22 @@ export function AuthProvider({ children }) {
     return nextUser;
   }, []);
 
+  const resetPassword = useCallback((credentials) => {
+    return supabaseAuth.resetPassword(credentials.email, credentials.password);
+  }, []);
+
   const signOut = useCallback(async () => {
     await supabaseAuth.signOut();
     setUser(null);
   }, []);
 
   const signInWithGoogle = useCallback(() => {
-    supabaseAuth.signInWithGoogle();
+    return supabaseAuth.signInWithGoogle();
   }, []);
 
   const value = useMemo(
-    () => ({ user, loading, signIn, signUp, signOut, signInWithGoogle, refreshUser }),
-    [user, loading, signIn, signUp, signOut, signInWithGoogle, refreshUser]
+    () => ({ user, loading, signIn, signUp, resetPassword, signOut, signInWithGoogle, refreshUser }),
+    [user, loading, signIn, signUp, resetPassword, signOut, signInWithGoogle, refreshUser]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

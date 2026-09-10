@@ -49,40 +49,44 @@ const columnByField = {
 
 const jsonFields = new Set(["subjects", "availableDays", "excludedDates", "manualPhases", "scheduleOptions", "days", "progress"]);
 
-export async function findStudyPlanById(id) {
-  const result = await query("SELECT * FROM study_plans WHERE id = $1", [id]);
+export async function findStudyPlanById(userId, id) {
+  const result = await query("SELECT * FROM study_plans WHERE user_id = $1 AND id = $2", [userId, id]);
   return toStudyPlan(result.rows[0]);
 }
 
-export async function findStudyPlanByApplicationId(applicationId) {
-  const result = await query("SELECT * FROM study_plans WHERE application_id = $1", [applicationId]);
+export async function findStudyPlanByApplicationId(userId, applicationId) {
+  const result = await query("SELECT * FROM study_plans WHERE user_id = $1 AND application_id = $2", [userId, applicationId]);
   return toStudyPlan(result.rows[0]);
 }
 
-export async function findStudyPlanByPersonalExamId(personalExamId) {
-  const result = await query("SELECT * FROM study_plans WHERE personal_exam_id = $1", [personalExamId]);
+export async function findStudyPlanByPersonalExamId(userId, personalExamId) {
+  const result = await query("SELECT * FROM study_plans WHERE user_id = $1 AND personal_exam_id = $2", [userId, personalExamId]);
   return toStudyPlan(result.rows[0]);
 }
 
-export async function findAllStudyPlans() {
-  const result = await query("SELECT * FROM study_plans ORDER BY exam_date ASC, created_at ASC");
+export async function findAllStudyPlans(userId) {
+  const result = await query(
+    "SELECT * FROM study_plans WHERE user_id = $1 ORDER BY exam_date ASC, created_at ASC",
+    [userId]
+  );
   return result.rows.map(toStudyPlan);
 }
 
-export async function replaceStudyPlan(applicationId, plan) {
-  return upsertStudyPlan({ ...plan, applicationId });
+export async function replaceStudyPlan(userId, applicationId, plan) {
+  return upsertStudyPlan(userId, { ...plan, applicationId });
 }
 
-export async function upsertStudyPlan(plan) {
+export async function upsertStudyPlan(userId, plan) {
   const result = await query(
     `
       INSERT INTO study_plans (
-        id, type, application_id, personal_exam_id, exam_name, exam_date, target, current_level,
+        id, user_id, type, application_id, personal_exam_id, exam_name, exam_date, target, current_level,
         weekday_hours, weekend_hours, subjects, available_days, excluded_dates,
         phase_mode, manual_phases, days, progress, created_at, updated_at, schedule_options
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11::jsonb, $12::jsonb, $13::jsonb, $14, $15::jsonb, $16::jsonb, $17::jsonb, $18, $19, $20::jsonb)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12::jsonb, $13::jsonb, $14::jsonb, $15, $16::jsonb, $17::jsonb, $18::jsonb, $19, $20, $21::jsonb)
       ON CONFLICT (id) DO UPDATE SET
+        user_id = EXCLUDED.user_id,
         type = EXCLUDED.type,
         application_id = EXCLUDED.application_id,
         personal_exam_id = EXCLUDED.personal_exam_id,
@@ -101,10 +105,12 @@ export async function upsertStudyPlan(plan) {
         days = EXCLUDED.days,
         progress = EXCLUDED.progress,
         updated_at = EXCLUDED.updated_at
+      WHERE study_plans.user_id = EXCLUDED.user_id
       RETURNING *
     `,
     [
       plan.id,
+      userId,
       plan.type || "application",
       plan.applicationId || null,
       plan.personalExamId || null,
@@ -129,13 +135,13 @@ export async function upsertStudyPlan(plan) {
   return toStudyPlan(result.rows[0]);
 }
 
-export async function upsertApplicationStudyPlan(applicationId, plan) {
-  const existing = await findStudyPlanByApplicationId(applicationId);
-  return upsertStudyPlan({ ...plan, id: existing?.id || plan.id, type: "application", applicationId });
+export async function upsertApplicationStudyPlan(userId, applicationId, plan) {
+  const existing = await findStudyPlanByApplicationId(userId, applicationId);
+  return upsertStudyPlan(userId, { ...plan, id: existing?.id || plan.id, type: "application", applicationId });
 }
 
-export async function updateStudyPlan(idOrApplicationId, updates) {
-  const existing = await findStudyPlanById(idOrApplicationId) || await findStudyPlanByApplicationId(idOrApplicationId);
+export async function updateStudyPlan(userId, idOrApplicationId, updates) {
+  const existing = await findStudyPlanById(userId, idOrApplicationId) || await findStudyPlanByApplicationId(userId, idOrApplicationId);
   if (!existing) return null;
 
   const nextUpdates = { ...updates, updatedAt: new Date().toISOString() };
@@ -144,18 +150,19 @@ export async function updateStudyPlan(idOrApplicationId, updates) {
 
   const sets = entries.map(([key], index) => {
     const cast = jsonFields.has(key) ? "::jsonb" : "";
-    return `${columnByField[key]} = $${index + 2}${cast}`;
+    return `${columnByField[key]} = $${index + 3}${cast}`;
   });
   const values = entries.map(([key, value]) => (jsonFields.has(key) ? JSON.stringify(value || (key === "progress" ? {} : [])) : value));
   const result = await query(
-    `UPDATE study_plans SET ${sets.join(", ")} WHERE id = $1 RETURNING *`,
-    [existing.id, ...values]
+    `UPDATE study_plans SET ${sets.join(", ")} WHERE user_id = $1 AND id = $2 RETURNING *`,
+    [userId, existing.id, ...values]
   );
   return toStudyPlan(result.rows[0]);
 }
 
-export async function deleteStudyPlan(idOrApplicationId) {
-  const existing = await findStudyPlanById(idOrApplicationId) || await findStudyPlanByApplicationId(idOrApplicationId);
-  if (!existing) return;
-  await query("DELETE FROM study_plans WHERE id = $1", [existing.id]);
+export async function deleteStudyPlan(userId, idOrApplicationId) {
+  const existing = await findStudyPlanById(userId, idOrApplicationId) || await findStudyPlanByApplicationId(userId, idOrApplicationId);
+  if (!existing) return false;
+  const result = await query("DELETE FROM study_plans WHERE user_id = $1 AND id = $2", [userId, existing.id]);
+  return result.rowCount > 0;
 }

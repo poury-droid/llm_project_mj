@@ -167,7 +167,7 @@ function Dashboard() {
       <h2>지원 공고별 현재 전형 단계</h2>
       <div className="card-grid">
         {dashboard.stages.map((item) => (
-          <ApplicationCard key={item.id} application={item} currentDdayOnly />
+          <ApplicationCard key={item.id} application={item} />
         ))}
       </div>
     </section>
