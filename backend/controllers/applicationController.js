@@ -74,7 +74,7 @@ export async function addStageChecklist(req, res) {
 
 function getStageChecklistDueDate(application) {
   const dueDates = {
-    "지원준비": application.deadline,
+    "서류전형": application.deadline,
     "필기전형": application.writtenTestDate,
     "면접전형": application.interviewDate,
     "최종결과": application.replyDeadline

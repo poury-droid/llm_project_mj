@@ -41,6 +41,7 @@ function PdfAnalyze() {
         });
       }
       for (const task of tasks) {
+        if (!task.title?.trim()) continue;
         const action = task.action || task.defaultAction;
         if (action === "add" || action === "done") {
           await api.createTask(saved.id, { ...task, completed: action === "done" });
@@ -57,8 +58,8 @@ function PdfAnalyze() {
     <section>
       <div className="page-title">
         <div>
-          <h1>채용 관련 자료 분석</h1>
-          <p>PDF와 이미지를 업로드하고, 분석 결과를 직접 수정한 뒤 저장합니다.</p>
+          <h1>OCR/AI 채용 자료 분석</h1>
+          <p>채용공고 이미지나 PDF를 업로드하면 OCR로 글자를 추출하고, AI가 날짜·장소·시험과목을 분석합니다.</p>
         </div>
       </div>
       {error && <p className="error">{error}</p>}

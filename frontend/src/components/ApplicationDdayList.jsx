@@ -3,7 +3,7 @@ import DdayBadge from "./DdayBadge.jsx";
 import { formatShortDate } from "../utils/dateUtils.js";
 
 const ddayItems = [
-  { stage: "지원준비", label: "지원 마감", field: "deadline", appliesTo: ["관심공고", "지원준비", "서류전형"] },
+  { stage: "서류전형", label: "서류 마감", field: "deadline", appliesTo: ["관심공고", "서류전형"] },
   { stage: "필기전형", label: "필기시험", field: "writtenTestDate", appliesTo: ["필기전형"] },
   { stage: "면접전형", label: "면접일", field: "interviewDate", appliesTo: ["면접전형"] },
   { stage: "최종결과", label: "회신 마감", field: "replyDeadline", appliesTo: ["최종결과"] }

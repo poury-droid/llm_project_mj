@@ -17,6 +17,13 @@ function AnalysisResultEditor({
     setSuggestedTasks((prev) => prev.map((task, taskIndex) => taskIndex === index ? { ...task, ...updates } : task));
   }
 
+  function addSuggestedTask() {
+    setSuggestedTasks((prev) => ([
+      ...prev,
+      { title: "", dueDate: result.deadline || "", priority: "normal", action: "add", defaultAction: "add" }
+    ]));
+  }
+
   function addListItem(name) {
     const value = window.prompt(`${name === "subjects" ? "시험과목" : "제출서류"} 이름을 입력하세요.`);
     if (!value) return;
@@ -77,8 +84,12 @@ function AnalysisResultEditor({
         회신 필요
       </label>
 
-      <h3>분석 결과에서 제안한 할 일</h3>
+      <div className="section-header compact">
+        <h3>분석 결과에서 제안한 할 일</h3>
+        <button className="button secondary" type="button" onClick={addSuggestedTask}>+ 할 일 추가</button>
+      </div>
       <div className="suggestion-list">
+        {!suggestedTasks.length && <p className="empty">제안된 할 일이 없습니다. 직접 추가해 주세요.</p>}
         {suggestedTasks.map((task, index) => (
           <div className="suggestion-row" key={`${task.title}-${index}`}>
             <div>

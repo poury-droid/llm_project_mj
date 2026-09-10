@@ -31,7 +31,7 @@ export async function extractOcrText(file) {
     };
   }
 
-  if (process.env.OCR_PROVIDER === "openai" || process.env.OPENAI_API_KEY) {
+  if (process.env.OCR_PROVIDER !== "tesseract" && process.env.OPENAI_API_KEY) {
     const openaiResult = await extractOpenAiVisionText(file);
     if (openaiResult.status === "success") return openaiResult;
     if (process.env.OCR_PROVIDER === "openai") return openaiResult;

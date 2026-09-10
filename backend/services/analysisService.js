@@ -1,5 +1,6 @@
 import { extractOcrText } from "./ocrService.js";
 import { analyzeImageDocumentWithLlm, canAnalyzeImageWithLlm } from "./llmAnalysisService.js";
+import { analyzeImageDocumentWithGemini, canAnalyzeImageWithGemini } from "./geminiAnalysisService.js";
 
 export function analyzeJobPostingMock(fileName = "uploaded.pdf") {
   return {
@@ -34,7 +35,7 @@ export function analyzeJobPostingMock(fileName = "uploaded.pdf") {
     },
     title: "2026년 하반기 신입직원 공개채용",
     deadline: "2026-09-14",
-    stage: "지원준비",
+    stage: "서류전형",
     pdfFileName: fileName,
     writtenTestDate: "2026-10-05",
     interviewDate: "",
@@ -105,7 +106,29 @@ export async function analyzeFile({ file, documentType }) {
   } else {
     analysis = analyzeJobPostingMock(fileName);
   }
-  if (canAnalyzeImageWithLlm(file)) {
+  if (canAnalyzeImageWithGemini(file)) {
+    const geminiResult = await analyzeImageDocumentWithGemini({ file, documentType, ocrText: ocr.text });
+    if (geminiResult.ok) {
+      analysis = {
+        ...analysis,
+        ...geminiResult.analysis,
+        fileName,
+        pdfFileName: fileName,
+        ocrText: ocr.text,
+        ocrStatus: ocr.status,
+        ocrConfidence: ocr.confidence,
+        ocrEngine: ocr.engine || "",
+        ocrMessage: ocr.message || "",
+        analysisEngine: "gemini"
+      };
+    } else {
+      analysis = {
+        ...mergeOcrHints(analysis, ocr, documentType, fileName),
+        analysisEngine: "rules",
+        analysisMessage: `Gemini 분석을 사용할 수 없어 OCR 결과로 표시합니다: ${geminiResult.message}`
+      };
+    }
+  } else if (canAnalyzeImageWithLlm(file)) {
     const llmResult = await analyzeImageDocumentWithLlm({ file, documentType, ocrText: ocr.text });
     if (llmResult.ok) {
       analysis = {
@@ -121,9 +144,11 @@ export async function analyzeFile({ file, documentType }) {
         analysisEngine: "openai"
       };
     } else {
-      const error = new Error(`OpenAI 이미지 분석 실패: ${llmResult.message}`);
-      error.status = 502;
-      throw error;
+      analysis = {
+        ...mergeOcrHints(analysis, ocr, documentType, fileName),
+        analysisEngine: "rules",
+        analysisMessage: `OpenAI 분석을 사용할 수 없어 OCR 결과로 표시합니다: ${llmResult.message}`
+      };
     }
   } else {
     analysis = {
@@ -146,11 +171,12 @@ export const analyzeFileMock = analyzeFile;
 function parseOcrAnalysisConservatively(text, documentType) {
   const lines = getUsefulLines(text);
   const stage = inferStageConservatively(text, documentType);
-  const interviewDate = findDateByLabels(lines, ["면접일", "면접 일시", "면접일시", "면접", "인터뷰"]);
+  const interviewSchedule = findInterviewScheduleConservatively(lines);
+  const interviewDate = interviewSchedule.date || findDateByLabels(lines, ["면접일", "면접 일시", "면접일시", "면접", "인터뷰"]);
   const writtenTestDate = findDateByLabels(lines, ["필기일", "필기 일시", "필기시험", "시험일", "시험 일시", "전형일"]);
   const deadline = findDateByLabels(lines, ["마감일", "접수마감", "접수 마감", "지원마감", "지원 마감", "제출기한", "제출 기한"]);
   const replyDeadline = findDateByLabels(lines, ["회신기한", "회신 기한", "응답기한", "응답 기한", "참석여부", "참석 여부"]);
-  const time = extractTimeNearLabels(lines, ["면접", "필기", "시험", "일시", "시간"]);
+  const time = interviewSchedule.time || extractTimeNearLabels(lines, ["면접", "필기", "시험", "일시", "시간"]);
 
   return {
     company: findLabeledValueConservatively(lines, ["회사명", "회사", "기관명", "기관", "기업명", "기업"]),
@@ -166,13 +192,36 @@ function parseOcrAnalysisConservatively(text, documentType) {
     interviewDate: interviewDate ? combineDateAndTime(interviewDate, time) : "",
     interviewTime: interviewDate ? time : "",
     replyDeadline,
-    location: findLabeledValueConservatively(lines, ["장소", "위치", "면접장소", "면접 장소", "고사장", "시험장", "주소"]),
+    location: findLocationConservatively(lines),
     subjects: findSubjectsConservatively(lines),
     requiredDocuments: findDocumentsConservatively(lines),
     notes: findNotesConservatively(lines),
     replyRequired: Boolean(replyDeadline) || /(회신|참석\s*여부|응답|답장)/.test(text),
     memo: "OCR 원문에서 명확히 확인되는 항목만 자동 입력했습니다. 빈 항목은 직접 확인해 주세요."
   };
+}
+
+function findInterviewScheduleConservatively(lines) {
+  const dateLabels = ["면접일시", "면접 일시", "면접일", "면접 날짜", "면접날짜", "인터뷰"];
+  const timeLabels = ["면접시간", "면접 시간", "면접시각", "면접 시각", "일시", "시간"];
+  for (let index = 0; index < lines.length; index += 1) {
+    const window = lines.slice(index, index + 3).join(" ");
+    const hasInterviewLabel = dateLabels.some((label) => normalizeKorean(window).includes(normalizeKorean(label)))
+      || normalizeKorean(window).includes("면접");
+    if (!hasInterviewLabel) continue;
+    const date = extractDatesStrict(window)[0] || "";
+    const time = extractTimeStrict(window) || (timeLabels.some((label) => normalizeKorean(window).includes(normalizeKorean(label))) ? extractTimeStrict(window) : "");
+    if (date || time) return { date, time };
+  }
+  return { date: "", time: "" };
+}
+
+function findLocationConservatively(lines) {
+  const labeled = findLabeledValueConservatively(lines, ["면접장소", "면접 장소", "면접 장소", "장소", "위치", "고사장", "시험장", "주소"]);
+  if (labeled) return labeled;
+  const locationLine = lines.find((line) => /면접\s*(장소|위치)|고사장|시험장|주소/.test(line));
+  if (!locationLine) return "";
+  return cleanupValue(locationLine.replace(/^.*?(면접\s*(장소|위치)|고사장|시험장|주소)\s*[:：-]?\s*/u, ""));
 }
 
 function inferStageConservatively(text, documentType) {
@@ -358,7 +407,7 @@ function inferStage(text, documentType) {
   if (documentType === "interview" || /면접|인터뷰/.test(text)) return "면접전형";
   if (documentType === "written-test" || /필기|NCS|인적성|시험/.test(text)) return "필기전형";
   if (documentType === "document-screening" || /서류/.test(text)) return "서류전형";
-  return "지원준비";
+  return "서류전형";
 }
 
 function inferCompany(lines) {
@@ -523,6 +572,23 @@ export function buildSuggestedTasks(analysis, documentType) {
       { title: "필기시험 날짜 확인", category: "필기전형", dueDate: analysis.writtenTestDate, priority: "high", defaultAction: "add" },
       { title: "수험표 확인", category: "필기전형", dueDate: analysis.writtenTestDate, priority: "high", defaultAction: "add" }
     );
+  }
+
+  if (!tasks.length) {
+    const dueDate = analysis.deadline || "";
+    const stage = analysis.stage || "서류전형";
+    const defaults = stage === "면접전형"
+      ? ["면접 일시·장소 확인", "예상 질문 준비"]
+      : stage === "필기전형"
+        ? ["필기시험 일정 확인", "시험 장소와 준비물 확인"]
+        : ["지원자격 확인", "지원서 및 자기소개서 준비", "제출 전 최종검토"];
+    tasks.push(...defaults.map((title, index) => ({
+      title,
+      category: stage,
+      dueDate,
+      priority: index === defaults.length - 1 ? "high" : "normal",
+      defaultAction: "add"
+    })));
   }
 
   return tasks;

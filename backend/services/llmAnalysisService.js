@@ -50,7 +50,7 @@ export async function analyzeImageDocumentWithLlm({ file, documentType, ocrText 
                     position: "string",
                     title: "string",
                     deadline: "YYYY-MM-DD or empty string",
-                    stage: "지원준비|서류전형|필기전형|면접전형|최종결과|empty string",
+                    stage: "서류전형|필기전형|면접전형|최종결과|empty string",
                     writtenTestDate: "YYYY-MM-DD or empty string",
                     interviewDate: "YYYY-MM-DDTHH:mm:00.000Z, YYYY-MM-DD, or empty string",
                     interviewTime: "HH:mm or empty string",
@@ -101,7 +101,7 @@ function parseJsonPayload(text) {
   return JSON.parse(match ? match[0] : cleaned);
 }
 
-function normalizeAnalysis(value = {}) {
+export function normalizeAnalysis(value = {}) {
   return {
     company: stringValue(value.company),
     position: stringValue(value.position),
@@ -113,7 +113,7 @@ function normalizeAnalysis(value = {}) {
     deadline: dateValue(value.deadline),
     stage: stringValue(value.stage),
     writtenTestDate: dateValue(value.writtenTestDate),
-    interviewDate: dateTimeValue(value.interviewDate),
+    interviewDate: combineInterviewDateTime(dateTimeValue(value.interviewDate), timeValue(value.interviewTime)),
     interviewTime: timeValue(value.interviewTime),
     replyDeadline: dateValue(value.replyDeadline),
     location: stringValue(value.location),
@@ -148,4 +148,9 @@ function dateTimeValue(value) {
 function timeValue(value) {
   const text = stringValue(value);
   return /^\d{2}:\d{2}$/.test(text) ? text : "";
+}
+
+function combineInterviewDateTime(date, time) {
+  if (!date || !time || date.includes("T")) return date;
+  return `${date}T${time}:00`;
 }

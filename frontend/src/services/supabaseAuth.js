@@ -47,11 +47,15 @@ async function request(path, options = {}) {
 
 export async function signUp(email, password) {
   const data = await request("/register", { method: "POST", body: JSON.stringify({ email, password }) });
+  clearAccessToken();
   return { user: data.user, session: true };
 }
 
 export async function signIn(email, password, remember = true) {
-  return request("/login", { method: "POST", body: JSON.stringify({ email, password, remember }) });
+  const data = await request("/login", { method: "POST", body: JSON.stringify({ email, password, remember }) });
+  // Switching from Google to email login must not reuse the previous bearer token.
+  clearAccessToken();
+  return data;
 }
 
 export async function resetPassword(email, password) {

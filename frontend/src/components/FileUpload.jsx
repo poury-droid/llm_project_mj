@@ -103,7 +103,7 @@ function FileUpload({ defaultDocumentType = "job-posting", onAnalyze }) {
           <div className="actions">
             <label className="button secondary" htmlFor="file-upload">파일 변경</label>
             <button className="button secondary" type="button" onClick={() => setFile(null)}>삭제</button>
-            <button className="button" type="button" onClick={analyze} disabled={analyzing}>{analyzing ? "분석 중" : "분석하기"}</button>
+            <button className="button" type="button" onClick={analyze} disabled={analyzing}>{analyzing ? "OCR/AI 분석 중" : "OCR/AI 분석 시작"}</button>
           </div>
         </div>
       )}

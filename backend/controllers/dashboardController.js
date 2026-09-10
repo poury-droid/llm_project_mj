@@ -57,7 +57,11 @@ export async function getDashboard(req, res) {
       materialName: block.materialName || "",
       studyRange: block.rangeLabel || ""
     }))))
-    .filter((block) => !block.completed && !block.excluded && daysBetween(today, block.date) === 0)
+    // Keep unfinished overdue review/wrong-answer blocks visible until they are completed.
+    .filter((block) => {
+      const daysLeft = daysBetween(today, block.date);
+      return !block.completed && !block.excluded && daysLeft !== null && daysLeft <= 0;
+    })
     .sort((a, b) => a.date.localeCompare(b.date))
     .slice(0, 8)
     .map((block) => ({
