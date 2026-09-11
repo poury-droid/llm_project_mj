@@ -26,6 +26,7 @@ function ApplicationForm() {
   const { refreshApplications } = useApplications();
   const [form, setForm] = useState(emptyForm);
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (id) api.getApplication(id).then((data) => setForm(data)).catch((err) => setError(err.message));
@@ -33,12 +34,17 @@ function ApplicationForm() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (saving) return;
+    setSaving(true);
+    setError("");
     try {
       const saved = id ? await api.updateApplication(id, form) : await api.createApplication(form);
       await refreshApplications();
       navigate(`/applications/${saved.id}`);
     } catch (err) {
       setError(err.message);
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -51,7 +57,7 @@ function ApplicationForm() {
       <form className="panel" onSubmit={handleSubmit}>
         <ApplicationFormFields form={form} setForm={setForm} />
         <div className="actions">
-          <button className="button" type="submit">저장</button>
+          <button className="button" type="submit" disabled={saving}>{saving ? "저장 중..." : "저장"}</button>
         </div>
       </form>
     </section>

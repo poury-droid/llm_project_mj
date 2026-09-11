@@ -38,7 +38,11 @@ export async function extractOcrText(file) {
   }
 
   try {
-    const result = await recognize(file.buffer, process.env.OCR_LANG || "kor+eng");
+    const result = await withTimeout(
+      recognize(file.buffer, process.env.OCR_LANG || "kor+eng"),
+      Number(process.env.OCR_TIMEOUT_MS || 60000),
+      "로컬 OCR 시간이 초과되었습니다. 이미지 해상도를 낮추거나 Gemini API 키를 확인해 주세요."
+    );
     const text = normalizeOcrText(result.data?.text || "");
     return {
       status: text ? "success" : "empty",
@@ -56,6 +60,14 @@ export async function extractOcrText(file) {
       message: error.message || "OCR failed."
     };
   }
+}
+
+function withTimeout(promise, timeoutMs, message) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
 
 async function extractOpenAiVisionText(file) {

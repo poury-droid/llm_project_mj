@@ -16,7 +16,15 @@ function FileUpload({ defaultDocumentType = "job-posting", onAnalyze }) {
   const [previewUrl, setPreviewUrl] = useState("");
   const [dragging, setDragging] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!analyzing) return undefined;
+    setElapsedSeconds(0);
+    const timer = window.setInterval(() => setElapsedSeconds((value) => value + 1), 1000);
+    return () => window.clearInterval(timer);
+  }, [analyzing]);
 
   const fileInfo = useMemo(() => {
     if (!file) return null;
@@ -59,11 +67,18 @@ function FileUpload({ defaultDocumentType = "job-posting", onAnalyze }) {
     formData.append("documentType", documentType);
     setAnalyzing(true);
     setError("");
+    let timeout;
     try {
-      await onAnalyze(formData);
+      await Promise.race([
+        onAnalyze(formData),
+        new Promise((_, reject) => {
+          timeout = window.setTimeout(() => reject(new Error("10초 안에 분석 결과를 받지 못했습니다. 이미지 용량을 줄이거나 다시 시도해 주세요.")), 12000);
+        })
+      ]);
     } catch (err) {
       setError(err.message);
     } finally {
+      window.clearTimeout(timeout);
       setAnalyzing(false);
     }
   }
@@ -107,6 +122,8 @@ function FileUpload({ defaultDocumentType = "job-posting", onAnalyze }) {
           </div>
         </div>
       )}
+
+      {analyzing && <p className="muted" role="status">Gemini가 이미지의 글자와 면접일시·장소를 분석 중입니다. {elapsedSeconds}초</p>}
 
       {error && <p className="error">{error}</p>}
     </div>

@@ -96,7 +96,10 @@ export async function analyzeFile({ file, documentType }) {
   const fileName = file.originalname;
   const mimeType = file.mimetype;
   const fileType = mimeType === "application/pdf" ? "pdf" : "image";
-  const ocr = await extractOcrText(file);
+  const geminiAvailable = canAnalyzeImageWithGemini(file);
+  let ocr = geminiAvailable
+    ? { status: "skipped", text: "", confidence: 0, message: "Gemini 이미지 분석을 우선 사용합니다." }
+    : await extractOcrText(file);
   let analysis;
 
   if (documentType === "interview" || documentType === "message") {
@@ -122,6 +125,7 @@ export async function analyzeFile({ file, documentType }) {
         analysisEngine: "gemini"
       };
     } else {
+      ocr = await extractOcrText(file);
       analysis = {
         ...mergeOcrHints(analysis, ocr, documentType, fileName),
         analysisEngine: "rules",

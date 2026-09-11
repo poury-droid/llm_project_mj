@@ -29,10 +29,11 @@ export async function analyzeImageDocumentWithGemini({ file, documentType, ocrTe
   ].filter(Boolean).join("\n\n");
 
   try {
-    const model = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    const model = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
+      signal: AbortSignal.timeout(Number(process.env.GEMINI_TIMEOUT_MS || 45000)),
       body: JSON.stringify({
         contents: [{
           parts: [
@@ -40,7 +41,7 @@ export async function analyzeImageDocumentWithGemini({ file, documentType, ocrTe
             { inline_data: { mime_type: file.mimetype, data: file.buffer.toString("base64") } }
           ]
         }],
-        generationConfig: { responseMimeType: "application/json", temperature: 0 }
+        generationConfig: { responseMimeType: "application/json", temperature: 0, maxOutputTokens: 1200 }
       })
     });
     const payload = await response.json().catch(() => ({}));

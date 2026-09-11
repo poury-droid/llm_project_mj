@@ -4,7 +4,8 @@ import { findSession } from "../services/authService.js";
 async function getSupabaseUser(token) {
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_ANON_KEY) return null;
   const response = await fetch(`${process.env.SUPABASE_URL}/auth/v1/user`, {
-    headers: { apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` }
+    headers: { apikey: process.env.SUPABASE_ANON_KEY, Authorization: `Bearer ${token}` },
+    signal: AbortSignal.timeout(8000)
   });
   if (!response.ok) return null;
   return response.json();

@@ -36,6 +36,8 @@ export async function createApplication(req, res) {
     createdAt: now,
     updatedAt: now
   };
+  const duplicate = await applicationRepo.findDuplicateApplication(req.user.id, application);
+  if (duplicate) return res.status(200).json(duplicate);
   const saved = await applicationRepo.createApplication(req.user.id, application);
   res.status(201).json(saved);
 }

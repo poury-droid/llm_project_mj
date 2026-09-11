@@ -49,6 +49,21 @@ export async function findApplicationById(userId, id) {
   return toApplication(result.rows[0]);
 }
 
+export async function findDuplicateApplication(userId, application) {
+  const result = await query(
+    `SELECT * FROM applications
+     WHERE user_id = $1
+       AND lower(trim(company)) = lower(trim($2))
+       AND lower(trim(position)) = lower(trim($3))
+       AND lower(trim(title)) = lower(trim($4))
+       AND deadline = $5
+     ORDER BY created_at ASC
+     LIMIT 1`,
+    [userId, application.company || "", application.position || "", application.title || "", application.deadline || ""]
+  );
+  return toApplication(result.rows[0]);
+}
+
 export async function createApplication(userId, application) {
   const result = await query(
     `
